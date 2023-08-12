@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import { Box, Paper } from "@mui/material";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
+import AddButton from "@/app/dashboard/add-button";
 
 export default function DashboardLayout({
   children,
@@ -10,6 +13,7 @@ export default function DashboardLayout({
   return (
     <Box sx={{ width: "100%" }}>
       {children}
+      <AddButton />
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
