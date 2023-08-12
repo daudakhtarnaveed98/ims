@@ -27,12 +27,15 @@ export default function CategoryCard({ name, totalProducts }: ICategoryCard) {
           <Typography variant="h6" component="div">
             {name}
           </Typography>
-          <Typography color="text.secondary">{totalProducts}</Typography>
+          <Typography color="text.secondary">
+            Total Products:{totalProducts}
+          </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <Button
             variant="contained"
             color="error"
+            size="small"
             onClick={() => dispatch(setIsConfirmDialogOpen(true))}
           >
             Delete

@@ -31,7 +31,12 @@ export default function DeleteConfirmationDialog() {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant="contained" color="error">
+        <Button
+          onClick={handleClose}
+          variant="contained"
+          color="error"
+          size="small"
+        >
           Close
         </Button>
         <Button
@@ -39,6 +44,7 @@ export default function DeleteConfirmationDialog() {
           autoFocus
           variant="contained"
           color="success"
+          size="small"
         >
           Confirm
         </Button>
