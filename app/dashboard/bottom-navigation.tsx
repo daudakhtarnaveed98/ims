@@ -8,23 +8,27 @@ import {
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MedicationIcon from "@mui/icons-material/Medication";
 import { useRouter, usePathname } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setValue } from "@/app/dashboard/bottom-navigation-slice";
 
 export default function BottomNavigation() {
-  const [currentMenu, setCurrentMenu] = React.useState(0);
+  const dispatch = useAppDispatch();
+  const currentMenu = useAppSelector(
+    (state) => state.bottomNavigationReducer.value,
+  );
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     switch (pathname) {
-      case "/dashboard/products":
-        setCurrentMenu(1);
-        break;
-
       case "/dashboard/consumptions":
-        setCurrentMenu(0);
+        dispatch(setValue(0));
+        break;
+      case "/dashboard/products":
+        dispatch(setValue(1));
         break;
     }
-  }, [pathname]);
+  }, [dispatch, pathname]);
 
   return (
     <>
@@ -32,7 +36,7 @@ export default function BottomNavigation() {
         showLabels
         value={currentMenu}
         onChange={(event, newValue) => {
-          setCurrentMenu(newValue);
+          dispatch(setValue(newValue));
 
           switch (newValue) {
             case 0:
