@@ -24,7 +24,7 @@ export default function CategoryCard({ name, totalProducts }: ICategoryCard) {
       <DeleteConfirmationDialog />
       <Card sx={{ width: "100%" }}>
         <CardContent>
-          <Typography sx={{ mb: 1 }} variant="h5" component="div">
+          <Typography variant="h6" component="div">
             {name}
           </Typography>
           <Typography color="text.secondary">{totalProducts}</Typography>
