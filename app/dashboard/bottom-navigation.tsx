@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MedicationIcon from "@mui/icons-material/Medication";
+import CategoryIcon from "@mui/icons-material/Category";
 import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setValue } from "@/app/dashboard/bottom-navigation-slice";
@@ -27,6 +28,9 @@ export default function BottomNavigation() {
       case "/dashboard/products":
         dispatch(setValue(1));
         break;
+      case "/dashboard/categories":
+        dispatch(setValue(2));
+        break;
     }
   }, [dispatch, pathname]);
 
@@ -45,6 +49,9 @@ export default function BottomNavigation() {
             case 1:
               router.push("/dashboard/products");
               break;
+            case 2:
+              router.push("/dashboard/categories");
+              break;
           }
         }}
       >
@@ -53,6 +60,7 @@ export default function BottomNavigation() {
           icon={<ShoppingCartIcon />}
         />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
+        <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
       </MUIBottomNavigation>
     </>
   );
