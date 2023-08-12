@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import bottomNavigationReducer from "@/app/dashboard/bottom-navigation-slice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    bottomNavigationReducer,
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 
