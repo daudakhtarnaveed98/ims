@@ -27,7 +27,7 @@ export default function DeleteConfirmationDialog() {
       <DialogTitle id="delete-confirmation">{"Are you sure?"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Please confirm if you want to proceed with this delete operation.
+          Please confirm if you want to delete this category.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
