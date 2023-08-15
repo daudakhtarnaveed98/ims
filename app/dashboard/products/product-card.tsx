@@ -2,17 +2,26 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DeleteConfirmationDialog from "@/app/dashboard/products/delete-confirmation-dialog";
 import { useAppDispatch } from "@/redux/hooks";
-import { setIsConfirmDialogOpen } from "@/app/dashboard/products/products-slice";
+import {
+  setIsConfirmDialogOpen,
+  setIsConsumeProductDialogOpen,
+  setIsEditProductDialogOpen,
+} from "@/app/dashboard/products/products-slice";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 export interface ICategoryCard {
   name: string;
   category: string;
   quantity: number;
   expiry: string;
+  modifiedOn: string;
 }
 
 export default function ProductCard({
@@ -20,6 +29,7 @@ export default function ProductCard({
   category,
   quantity,
   expiry,
+  modifiedOn,
 }: ICategoryCard) {
   const dispatch = useAppDispatch();
 
@@ -34,23 +44,31 @@ export default function ProductCard({
           <Typography variant="h6" component="div">
             {name}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Quantity: {quantity}
+          <Typography color="text.secondary">Quantity: {quantity}</Typography>
+          <Typography color="text.secondary">Expiry: {expiry}</Typography>
+          <Typography color="text.secondary">
+            Modified On: {modifiedOn}
           </Typography>
-          <Typography variant="body2">Expiry: {expiry}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="contained">
-            Edit
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
+          <IconButton
+            color="primary"
+            onClick={() => dispatch(setIsEditProductDialogOpen(true))}
+          >
+            <EditIcon sx={{ height: 24, width: 24 }} />
+          </IconButton>
+          <IconButton
+            color="warning"
+            onClick={() => dispatch(setIsConsumeProductDialogOpen(true))}
+          >
+            <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
+          </IconButton>
+          <IconButton
             color="error"
             onClick={() => dispatch(setIsConfirmDialogOpen(true))}
           >
-            Delete
-          </Button>
+            <DeleteIcon sx={{ height: 24, width: 24 }} />
+          </IconButton>
         </CardActions>
       </Card>
     </>
