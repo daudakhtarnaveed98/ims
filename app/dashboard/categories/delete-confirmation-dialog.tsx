@@ -20,14 +20,14 @@ export default function DeleteConfirmationDialog() {
     dispatch(setIsConfirmDialogOpen(false));
   };
 
-  const handleConfirm = () => {};
+  const handleDelete = () => {};
 
   return (
     <Dialog open={isConfirmDialogOpen} onClose={handleClose}>
       <DialogTitle id="delete-confirmation">{"Are you sure?"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Please confirm if you want to delete this category.
+          Please press DELETE to remove this category.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -40,13 +40,12 @@ export default function DeleteConfirmationDialog() {
           Close
         </Button>
         <Button
-          onClick={handleConfirm}
+          onClick={handleDelete}
           autoFocus
           variant="contained"
-          color="success"
           size="small"
         >
-          Confirm
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
