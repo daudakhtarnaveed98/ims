@@ -4,20 +4,34 @@ import Backdrop from "@mui/material/Backdrop";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CategoryIcon from "@mui/icons-material/Category";
-
-const actions = [
-  { icon: <ShoppingCartIcon />, name: "Consumption" },
-  { icon: <MedicationIcon />, name: "Product" },
-  { icon: <CategoryIcon />, name: "Category" },
-];
+import { setIsAddCategoryDialogOpen } from "@/app/dashboard/categories/categories-slice";
+import { setIsAddProductDialogOpen } from "@/app/dashboard/products/products-slice";
+import { useAppDispatch } from "@/redux/hooks";
 
 export default function AddButton() {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const actions = [
+    {
+      icon: <MedicationIcon />,
+      name: "Product",
+      onClick: () => {
+        dispatch(setIsAddProductDialogOpen(true));
+      },
+    },
+    {
+      icon: <CategoryIcon />,
+      name: "Category",
+      onClick: () => {
+        dispatch(setIsAddCategoryDialogOpen(true));
+      },
+    },
+  ];
 
   return (
     <Box>
@@ -25,7 +39,7 @@ export default function AddButton() {
       <SpeedDial
         ariaLabel="Add button"
         sx={{
-          position: "absolute",
+          position: "fixed",
           bottom: 72,
           right: 16,
         }}
@@ -38,7 +52,7 @@ export default function AddButton() {
           <SpeedDialAction
             key={action.name}
             icon={action.icon}
-            onClick={handleClose}
+            onClick={action.onClick}
           />
         ))}
       </SpeedDial>
