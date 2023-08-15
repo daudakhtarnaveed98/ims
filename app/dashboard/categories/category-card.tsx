@@ -2,7 +2,7 @@
 
 import React from "react";
 import {
-  Button,
+  IconButton,
   Card,
   CardActions,
   CardContent,
@@ -11,12 +11,13 @@ import {
 import DeleteConfirmationDialog from "@/app/dashboard/categories/delete-confirmation-dialog";
 import { useAppDispatch } from "@/redux/hooks";
 import { setIsConfirmDialogOpen } from "@/app/dashboard/categories/categories-slice";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export interface ICategoryCard {
   name: string;
-  totalProducts: number;
+  totalStock: number;
 }
-export default function CategoryCard({ name, totalProducts }: ICategoryCard) {
+export default function CategoryCard({ name, totalStock }: ICategoryCard) {
   const dispatch = useAppDispatch();
 
   return (
@@ -28,18 +29,16 @@ export default function CategoryCard({ name, totalProducts }: ICategoryCard) {
             {name}
           </Typography>
           <Typography color="text.secondary">
-            Total Products:{totalProducts}
+            Total stock:{totalStock}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
-          <Button
-            variant="contained"
+        <CardActions>
+          <IconButton
             color="error"
-            size="small"
             onClick={() => dispatch(setIsConfirmDialogOpen(true))}
           >
-            Delete
-          </Button>
+            <DeleteIcon sx={{ height: 24, width: 24 }} />
+          </IconButton>
         </CardActions>
       </Card>
     </>
