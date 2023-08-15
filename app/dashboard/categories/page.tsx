@@ -17,10 +17,10 @@ export default function Categories() {
       <Divider />
       <List>
         <ListItem>
-          <CategoryCard name={"Injections"} totalProducts={100} />
+          <CategoryCard name={"Injections"} totalStock={100} />
         </ListItem>
         <ListItem>
-          <CategoryCard name={"Tablets"} totalProducts={100} />
+          <CategoryCard name={"Tablets"} totalStock={100} />
         </ListItem>
       </List>
     </>
