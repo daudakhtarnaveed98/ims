@@ -34,43 +34,40 @@ export default function ProductCard({
   const dispatch = useAppDispatch();
 
   return (
-    <>
-      <DeleteConfirmationDialog />
-      <Card sx={{ width: "100%" }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {category}
-          </Typography>
-          <Typography variant="h6" component="div">
-            {name}
-          </Typography>
-          <Typography color="text.secondary">Quantity: {quantity}</Typography>
-          <Typography color="text.secondary">Expiry: {expiry}</Typography>
-          <Typography color="text.secondary">
-            Modified On: {modifiedOn}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <IconButton
-            color="primary"
-            onClick={() => dispatch(setIsEditProductDialogOpen(true))}
-          >
-            <EditIcon sx={{ height: 24, width: 24 }} />
-          </IconButton>
-          <IconButton
-            color="warning"
-            onClick={() => dispatch(setIsConsumeProductDialogOpen(true))}
-          >
-            <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
-          </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => dispatch(setIsConfirmDialogOpen(true))}
-          >
-            <DeleteIcon sx={{ height: 24, width: 24 }} />
-          </IconButton>
-        </CardActions>
-      </Card>
-    </>
+    <Card sx={{ width: "100%" }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {category}
+        </Typography>
+        <Typography variant="h6" component="div">
+          {name}
+        </Typography>
+        <Typography color="text.secondary">Quantity: {quantity}</Typography>
+        <Typography color="text.secondary">Expiry: {expiry}</Typography>
+        <Typography color="text.secondary">
+          Modified On: {modifiedOn}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <IconButton
+          color="primary"
+          onClick={() => dispatch(setIsEditProductDialogOpen(true))}
+        >
+          <EditIcon sx={{ height: 24, width: 24 }} />
+        </IconButton>
+        <IconButton
+          color="warning"
+          onClick={() => dispatch(setIsConsumeProductDialogOpen(true))}
+        >
+          <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
+        </IconButton>
+        <IconButton
+          color="error"
+          onClick={() => dispatch(setIsConfirmDialogOpen(true))}
+        >
+          <DeleteIcon sx={{ height: 24, width: 24 }} />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 }

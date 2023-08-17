@@ -8,6 +8,8 @@ import AddCategoryDialog from "@/app/dashboard/categories/add-category-dialog";
 import AddProductDialog from "@/app/dashboard/products/add-product-dialog";
 import ConsumeProductDialog from "@/app/dashboard/products/consume-product-dialog";
 import EditProductDialog from "@/app/dashboard/products/edit-product-dialog";
+import CategoryDeleteConfirmationDialog from "@/app/dashboard/categories/delete-confirmation-dialog";
+import ProductDeleteConfirmationDialog from "@/app/dashboard/products/delete-confirmation-dialog";
 
 export default function DashboardLayout({
   children,
@@ -16,6 +18,8 @@ export default function DashboardLayout({
 }) {
   return (
     <>
+      <CategoryDeleteConfirmationDialog />
+      <ProductDeleteConfirmationDialog />
       <AddCategoryDialog />
       <EditProductDialog />
       <AddProductDialog />
