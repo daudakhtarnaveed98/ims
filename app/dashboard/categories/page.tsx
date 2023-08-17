@@ -64,7 +64,7 @@ export default function Categories() {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          minHeight="100vh"
+          minHeight="60vh"
         >
           <CircularProgress />
         </Box>
