@@ -6,15 +6,26 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsAddCategoryDialogOpen } from "@/app/dashboard/categories/categories-slice";
+import {
+  setIsAddCategoryDialogOpen,
+  setIsAddingCategory,
+  setRefetchCategories,
+} from "@/app/dashboard/categories/categories-slice";
 import { List, ListItem } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { addCategory } from "@/app/dashboard/categories/utils";
 
 export default function AddCategoryDialog() {
   const dispatch = useAppDispatch();
   const isAddCategoryDialogOpen = useAppSelector(
     (state) => state.categoriesReducer.isAddCategoryDialogOpen,
+  );
+  const isAddingCategory = useAppSelector(
+    (state) => state.categoriesReducer.isAddingCategory,
+  );
+  const refetchCategories = useAppSelector(
+    (state) => state.categoriesReducer.refetchCategories,
   );
   const formik = useFormik({
     initialValues: {
@@ -23,8 +34,23 @@ export default function AddCategoryDialog() {
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        dispatch(setIsAddingCategory(true));
+
+        await addCategory(values);
+
+        dispatch(setIsAddingCategory(false));
+        dispatch(setIsAddCategoryDialogOpen(false));
+        dispatch(setRefetchCategories(!refetchCategories));
+        formik.resetForm();
+      } catch (e) {
+        console.error(e);
+
+        dispatch(setIsAddingCategory(false));
+        dispatch(setIsAddCategoryDialogOpen(false));
+        formik.resetForm();
+      }
     },
   });
 
@@ -70,6 +96,7 @@ export default function AddCategoryDialog() {
             size="small"
             type="submit"
             form="addCategoryForm"
+            disabled={isAddingCategory}
           >
             Add
           </Button>
