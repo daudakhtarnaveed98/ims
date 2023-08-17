@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import CategoryCard from "@/app/dashboard/categories/category-card";
 import {
+  Alert,
   CircularProgress,
   Divider,
   List,
@@ -67,7 +68,7 @@ export default function Categories() {
         >
           <CircularProgress />
         </Box>
-      ) : (
+      ) : categories.length > 0 ? (
         <List>
           {categories.map((category) => (
             <ListItem key={category.id}>
@@ -75,6 +76,13 @@ export default function Categories() {
             </ListItem>
           ))}
         </List>
+      ) : (
+        <Alert
+          severity="warning"
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          No data, please consider adding some categories first.
+        </Alert>
       )}
     </>
   );
