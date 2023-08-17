@@ -85,7 +85,7 @@ export default function ConsumeProductDialog() {
               <TextField
                 id="quantity"
                 name="quantity"
-                label="Product quantity"
+                label="Quantity"
                 type="number"
                 size="small"
                 value={formik.values.quantity}
