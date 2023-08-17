@@ -9,14 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useAppDispatch } from "@/redux/hooks";
-import { setIsConfirmDialogOpen } from "@/app/dashboard/categories/categories-slice";
+import {
+  setIsConfirmDialogOpen,
+  setToDeleteCategoryId,
+} from "@/app/dashboard/categories/categories-slice";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Category } from "@/app/dashboard/categories/types";
 
-export interface ICategoryCard {
-  name: string;
-  totalStock: number;
-}
-export default function CategoryCard({ name, totalStock }: ICategoryCard) {
+export default function CategoryCard({ id, name }: Category) {
   const dispatch = useAppDispatch();
 
   return (
@@ -25,12 +25,16 @@ export default function CategoryCard({ name, totalStock }: ICategoryCard) {
         <Typography variant="h6" component="div">
           {name}
         </Typography>
-        <Typography color="text.secondary">Total stock:{totalStock}</Typography>
       </CardContent>
       <CardActions>
         <IconButton
           color="error"
-          onClick={() => dispatch(setIsConfirmDialogOpen(true))}
+          onClick={() => {
+            if (id != null) {
+              dispatch(setToDeleteCategoryId(id));
+              dispatch(setIsConfirmDialogOpen(true));
+            }
+          }}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
