@@ -1,10 +1,53 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import CategoryCard from "@/app/dashboard/categories/category-card";
-import { Divider, List, ListItem, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
+import { getCategories } from "@/app/dashboard/categories/utils";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  setCategories,
+  setIsFetchingCategory,
+} from "@/app/dashboard/categories/categories-slice";
+import Box from "@mui/material/Box";
 
 export default function Categories() {
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories,
+  );
+  const isFetchingCategory = useAppSelector(
+    (state) => state.categoriesReducer.isFetchingCategory,
+  );
+  const refetchCategories = useAppSelector(
+    (state) => state.categoriesReducer.refetchCategories,
+  );
+
+  useEffect(() => {
+    try {
+      const getCategoriesAsync = async () => {
+        const categories = await getCategories();
+        dispatch(setCategories(categories));
+      };
+
+      dispatch(setIsFetchingCategory(true));
+
+      getCategoriesAsync()
+        .then(() => dispatch(setIsFetchingCategory(false)))
+        .catch(console.error);
+    } catch (e) {
+      console.error(e);
+
+      dispatch(setIsFetchingCategory(false));
+    }
+  }, [dispatch, refetchCategories]);
+
   return (
     <>
       <Typography
@@ -15,14 +58,24 @@ export default function Categories() {
         Categories
       </Typography>
       <Divider />
-      <List>
-        <ListItem>
-          <CategoryCard name={"Injections"} totalStock={100} />
-        </ListItem>
-        <ListItem>
-          <CategoryCard name={"Tablets"} totalStock={100} />
-        </ListItem>
-      </List>
+      {isFetchingCategory ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <List>
+          {categories.map((category) => (
+            <ListItem key={category.id}>
+              <CategoryCard id={category.id} name={category.name} />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </>
   );
 }
