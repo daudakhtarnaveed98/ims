@@ -3,7 +3,6 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import DeleteConfirmationDialog from "@/app/dashboard/products/delete-confirmation-dialog";
 import { useAppDispatch } from "@/redux/hooks";
 import {
   setIsConfirmDialogOpen,
@@ -14,7 +13,6 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import InventoryIcon from "@mui/icons-material/Inventory";
 
 export interface ICategoryCard {
   name: string;

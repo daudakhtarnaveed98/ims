@@ -8,7 +8,6 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import DeleteConfirmationDialog from "@/app/dashboard/categories/delete-confirmation-dialog";
 import { useAppDispatch } from "@/redux/hooks";
 import { setIsConfirmDialogOpen } from "@/app/dashboard/categories/categories-slice";
 import DeleteIcon from "@mui/icons-material/Delete";
