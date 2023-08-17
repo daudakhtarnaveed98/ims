@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Box, Paper } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
 import AddButton from "@/app/dashboard/add-button";
 import AddCategoryDialog from "@/app/dashboard/categories/add-category-dialog";
@@ -17,7 +18,13 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <SnackbarProvider
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      maxSnack={2}
+    >
       <CategoryDeleteConfirmationDialog />
       <ProductDeleteConfirmationDialog />
       <AddCategoryDialog />
@@ -34,6 +41,6 @@ export default function DashboardLayout({
           <BottomNavigation />
         </Paper>
       </Box>
-    </>
+    </SnackbarProvider>
   );
 }
