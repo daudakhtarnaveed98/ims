@@ -18,8 +18,11 @@ import { DateTime } from "luxon";
 import { useSnackbar } from "notistack";
 import { addProduct } from "@/app/dashboard/products/utils";
 import { Product } from "@/app/dashboard/products/types";
+import { useCategories } from "@/app/dashboard/categories/hooks";
+import InputMask from "react-input-mask";
 
 export default function AddProductDialog() {
+  useCategories();
   const dispatch = useAppDispatch();
   const isAddProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isAddProductDialogOpen,
@@ -28,6 +31,12 @@ export default function AddProductDialog() {
     (state) => state.productsReducer.refetchProducts,
   );
   const { enqueueSnackbar } = useSnackbar();
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories,
+  );
+  const isAddingProducts = useAppSelector(
+    (state) => state.productsReducer.isAddingProduct,
+  );
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -46,7 +55,7 @@ export default function AddProductDialog() {
       category: yup.string().required("Category is required"),
     }),
     onSubmit: async (values: Product) => {
-      values["modifiedOn"] = DateTime.now().toLocaleString();
+      values["modifiedOn"] = DateTime.now().toFormat("dd/MM/yyyy");
 
       try {
         enqueueSnackbar("Product is being added!", { variant: "info" });
@@ -117,19 +126,29 @@ export default function AddProductDialog() {
               />
             </ListItem>
             <ListItem>
-              <TextField
-                id="expiry"
-                name="expiry"
-                label="Expiry"
-                type="text"
-                size="small"
+              <InputMask
+                mask={"99/9999"}
                 value={formik.values.expiry}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.expiry && Boolean(formik.errors.expiry)}
-                helperText={formik.touched.expiry && formik.errors.expiry}
-                fullWidth
-              />
+              >
+                {/*@ts-ignore*/}
+                {() => (
+                  <TextField
+                    id="expiry"
+                    name="expiry"
+                    label="Expiry"
+                    type="text"
+                    size="small"
+                    error={
+                      formik.touched.expiry && Boolean(formik.errors.expiry)
+                    }
+                    helperText={formik.touched.expiry && formik.errors.expiry}
+                    placeholder="MM/YYYY"
+                    fullWidth
+                  />
+                )}
+              </InputMask>
             </ListItem>
             <ListItem>
               <TextField
@@ -147,9 +166,11 @@ export default function AddProductDialog() {
                 helperText={formik.touched.category && formik.errors.category}
                 fullWidth
               >
-                <MenuItem key="injections" value="injections">
-                  Injections
-                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.name}
+                  </MenuItem>
+                ))}
               </TextField>
             </ListItem>
           </List>
@@ -168,6 +189,7 @@ export default function AddProductDialog() {
             size="small"
             type="submit"
             form="addProductForm"
+            disabled={isAddingProducts}
           >
             Add
           </Button>
