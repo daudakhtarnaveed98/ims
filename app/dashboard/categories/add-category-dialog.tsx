@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { addCategory } from "@/app/dashboard/categories/utils";
 import { useSnackbar } from "notistack";
+import { Category } from "@/app/dashboard/categories/types";
 
 export default function AddCategoryDialog() {
   const dispatch = useAppDispatch();
@@ -36,7 +37,7 @@ export default function AddCategoryDialog() {
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: Category) => {
       try {
         enqueueSnackbar("Category is being added!", { variant: "info" });
 
