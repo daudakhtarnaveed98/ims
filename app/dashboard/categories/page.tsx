@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import CategoryCard from "@/app/dashboard/categories/category-card";
 import {
   Alert,
@@ -10,44 +10,18 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import { getCategories } from "@/app/dashboard/categories/utils";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  setCategories,
-  setIsFetchingCategory,
-} from "@/app/dashboard/categories/categories-slice";
+import { useAppSelector } from "@/redux/hooks";
 import Box from "@mui/material/Box";
+import { useCategories } from "@/app/dashboard/categories/hooks";
 
 export default function Categories() {
-  const dispatch = useAppDispatch();
+  useCategories();
   const categories = useAppSelector(
     (state) => state.categoriesReducer.categories,
   );
   const isFetchingCategory = useAppSelector(
     (state) => state.categoriesReducer.isFetchingCategory,
   );
-  const refetchCategories = useAppSelector(
-    (state) => state.categoriesReducer.refetchCategories,
-  );
-
-  useEffect(() => {
-    try {
-      const getCategoriesAsync = async () => {
-        const categories = await getCategories();
-        dispatch(setCategories(categories));
-      };
-
-      dispatch(setIsFetchingCategory(true));
-
-      getCategoriesAsync()
-        .then(() => dispatch(setIsFetchingCategory(false)))
-        .catch(console.error);
-    } catch (e) {
-      console.error(e);
-
-      dispatch(setIsFetchingCategory(false));
-    }
-  }, [dispatch, refetchCategories]);
 
   return (
     <>
