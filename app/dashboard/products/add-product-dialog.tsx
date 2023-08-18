@@ -6,31 +6,72 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsAddProductDialogOpen } from "@/app/dashboard/products/products-slice";
+import {
+  setIsAddingProduct,
+  setIsAddProductDialogOpen,
+  setRefetchProducts,
+} from "@/app/dashboard/products/products-slice";
 import { List, ListItem, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { DateTime } from "luxon";
+import { useSnackbar } from "notistack";
+import { addProduct } from "@/app/dashboard/products/utils";
+import { Product } from "@/app/dashboard/products/types";
 
 export default function AddProductDialog() {
   const dispatch = useAppDispatch();
   const isAddProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isAddProductDialogOpen,
   );
+  const refetchProducts = useAppSelector(
+    (state) => state.productsReducer.refetchProducts,
+  );
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       name: "",
-      stock: "",
+      stock: 0,
       expiry: "",
       category: "",
+      modifiedOn: "",
     },
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
-      stock: yup.number().required("Stock is required"),
+      stock: yup
+        .number()
+        .min(1, "Stock must be greater than 0")
+        .required("Stock is required"),
       expiry: yup.string().required("Expiry is required"),
       category: yup.string().required("Category is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values: Product) => {
+      values["modifiedOn"] = DateTime.now().toLocaleString();
+
+      try {
+        enqueueSnackbar("Product is being added!", { variant: "info" });
+
+        dispatch(setIsAddingProduct(true));
+
+        await addProduct(values);
+
+        dispatch(setIsAddingProduct(false));
+        dispatch(setIsAddProductDialogOpen(false));
+        dispatch(setRefetchProducts(!refetchProducts));
+        formik.resetForm();
+
+        enqueueSnackbar("Product added successfully!", { variant: "success" });
+      } catch (e) {
+        console.error(e);
+
+        dispatch(setIsAddingProduct(false));
+        dispatch(setIsAddProductDialogOpen(false));
+        formik.resetForm();
+
+        enqueueSnackbar("An error occurred while adding product!", {
+          variant: "error",
+        });
+      }
     },
   });
 
