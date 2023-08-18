@@ -13,22 +13,15 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
-export interface ICategoryCard {
-  name: string;
-  category: string;
-  quantity: number;
-  expiry: string;
-  modifiedOn: string;
-}
+import { Product } from "@/app/dashboard/products/types";
 
 export default function ProductCard({
   name,
   category,
-  quantity,
+  stock,
   expiry,
   modifiedOn,
-}: ICategoryCard) {
+}: Product) {
   const dispatch = useAppDispatch();
 
   return (
@@ -40,7 +33,7 @@ export default function ProductCard({
         <Typography variant="h6" component="div">
           {name}
         </Typography>
-        <Typography color="text.secondary">Quantity: {quantity}</Typography>
+        <Typography color="text.secondary">Stock: {stock}</Typography>
         <Typography color="text.secondary">Expiry: {expiry}</Typography>
         <Typography color="text.secondary">
           Modified On: {modifiedOn}

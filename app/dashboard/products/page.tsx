@@ -20,7 +20,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
@@ -29,7 +29,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
@@ -38,7 +38,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
@@ -47,7 +47,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
@@ -56,7 +56,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
@@ -65,7 +65,7 @@ export default function Products() {
           <ProductCard
             name="Aspirin"
             category="Tablets"
-            quantity={100}
+            stock={100}
             expiry="10/2023"
             modifiedOn="01/10/2023"
           />
