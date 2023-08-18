@@ -24,6 +24,7 @@ export default function DashboardLayout({
         horizontal: "right",
       }}
       maxSnack={2}
+      autoHideDuration={1000}
     >
       <CategoryDeleteConfirmationDialog />
       <ProductDeleteConfirmationDialog />

@@ -15,6 +15,7 @@ import { List, ListItem } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { addCategory } from "@/app/dashboard/categories/utils";
+import { useSnackbar } from "notistack";
 
 export default function AddCategoryDialog() {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ export default function AddCategoryDialog() {
   const refetchCategories = useAppSelector(
     (state) => state.categoriesReducer.refetchCategories,
   );
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -36,6 +38,8 @@ export default function AddCategoryDialog() {
     }),
     onSubmit: async (values) => {
       try {
+        enqueueSnackbar("Category is being added!", { variant: "info" });
+
         dispatch(setIsAddingCategory(true));
 
         await addCategory(values);
@@ -44,12 +48,18 @@ export default function AddCategoryDialog() {
         dispatch(setIsAddCategoryDialogOpen(false));
         dispatch(setRefetchCategories(!refetchCategories));
         formik.resetForm();
+
+        enqueueSnackbar("Category added successfully!", { variant: "success" });
       } catch (e) {
         console.error(e);
 
         dispatch(setIsAddingCategory(false));
         dispatch(setIsAddCategoryDialogOpen(false));
         formik.resetForm();
+
+        enqueueSnackbar("An error occurred while adding category!", {
+          variant: "error",
+        });
       }
     },
   });

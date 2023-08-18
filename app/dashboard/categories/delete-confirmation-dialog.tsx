@@ -15,6 +15,7 @@ import {
   setToDeleteCategoryId,
 } from "@/app/dashboard/categories/categories-slice";
 import { deleteCategory } from "@/app/dashboard/categories/utils";
+import { useSnackbar } from "notistack";
 
 export default function DeleteConfirmationDialog() {
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ export default function DeleteConfirmationDialog() {
   const refetchCategories = useAppSelector(
     (state) => state.categoriesReducer.refetchCategories,
   );
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => {
     dispatch(setToDeleteCategoryId(""));
@@ -38,6 +40,8 @@ export default function DeleteConfirmationDialog() {
 
   const handleDelete = async () => {
     try {
+      enqueueSnackbar("Category is being deleted!", { variant: "info" });
+
       dispatch(setIsDeletingCategory(true));
 
       await deleteCategory(toDeleteCategoryId);
@@ -45,11 +49,17 @@ export default function DeleteConfirmationDialog() {
       dispatch(setIsDeletingCategory(false));
       dispatch(setIsConfirmDialogOpen(false));
       dispatch(setRefetchCategories(!refetchCategories));
+
+      enqueueSnackbar("Category deleted successfully!", { variant: "success" });
     } catch (e) {
       console.error(e);
 
       dispatch(setIsDeletingCategory(false));
       dispatch(setIsConfirmDialogOpen(false));
+
+      enqueueSnackbar("An error occurred while deleting category!", {
+        variant: "error",
+      });
     }
   };
 
