@@ -81,7 +81,7 @@ export default function Categories() {
           severity="warning"
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          No data, please consider adding some categories first.
+          No categories found.
         </Alert>
       )}
     </>
