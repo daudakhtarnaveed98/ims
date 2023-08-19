@@ -6,39 +6,112 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsEditProductDialogOpen } from "@/app/dashboard/products/products-slice";
+import {
+  setIsEditingProduct,
+  setIsEditProductDialogOpen,
+  setRefetchProducts,
+  setToEditProduct,
+} from "@/app/dashboard/products/products-slice";
 import { List, ListItem, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import InputMask from "react-input-mask";
+import { useCategories } from "@/app/dashboard/categories/hooks";
+import { useSnackbar } from "notistack";
+import { editProduct } from "@/app/dashboard/products/utils";
+import { DateTime } from "luxon";
 
 export default function EditProductDialog() {
+  useCategories();
   const dispatch = useAppDispatch();
   const isEditProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isEditProductDialogOpen,
   );
+  const toEditProduct = useAppSelector(
+    (state) => state.productsReducer.toEditProduct,
+  );
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories,
+  );
+  const refetchProducts = useAppSelector(
+    (state) => state.productsReducer.refetchProducts,
+  );
+  const isEditingProduct = useAppSelector(
+    (state) => state.productsReducer.isEditingProduct,
+  );
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      expiry: "",
-      category: "",
-      oldStock: "",
-      newStock: "",
+      name: toEditProduct.name,
+      expiry: toEditProduct.expiry,
+      category: toEditProduct.category,
+      oldStock: toEditProduct.stock,
+      newStock: 0,
     },
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
       expiry: yup.string().required("Expiry is required"),
       category: yup.string().required("Category is required"),
       oldStock: yup.number().required("Old stock is required"),
-      newStock: yup.number().required("New stock is required"),
+      newStock: yup
+        .number()
+        .min(1, "New stock quantity must be greater than 0")
+        .required("New stock is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const update = {
+        ...toEditProduct,
+        name: values.name,
+        category: values.category,
+        expiry: values.expiry,
+        stock: values.oldStock + values.newStock,
+        modifiedOn: DateTime.now().toFormat("dd/MM/yyyy"),
+      };
+
+      try {
+        enqueueSnackbar("Product is being edited!", { variant: "info" });
+
+        dispatch(setIsEditingProduct(true));
+
+        if (toEditProduct.id != null) {
+          await editProduct(toEditProduct.id, update);
+        }
+
+        dispatch(setIsEditingProduct(false));
+        dispatch(setIsEditProductDialogOpen(false));
+        dispatch(setRefetchProducts(!refetchProducts));
+        formik.resetForm();
+
+        enqueueSnackbar("Product edited successfully!", { variant: "success" });
+      } catch (e) {
+        console.error(e);
+
+        dispatch(setIsEditingProduct(false));
+        dispatch(setIsEditProductDialogOpen(false));
+        formik.resetForm();
+
+        enqueueSnackbar("An error occurred while editing product!", {
+          variant: "error",
+        });
+      }
     },
+    enableReinitialize: true,
   });
 
   const handleClose = () => {
     formik.resetForm();
+    dispatch(
+      setToEditProduct({
+        id: "",
+        name: "",
+        category: "",
+        expiry: "",
+        stock: 0,
+        lowStockQuantity: 0,
+        modifiedOn: "",
+      }),
+    );
     dispatch(setIsEditProductDialogOpen(false));
   };
 
@@ -64,19 +137,29 @@ export default function EditProductDialog() {
               />
             </ListItem>
             <ListItem>
-              <TextField
-                id="expiry"
-                name="expiry"
-                label="Expiry"
-                type="text"
-                size="small"
+              <InputMask
+                mask={"99/9999"}
                 value={formik.values.expiry}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.expiry && Boolean(formik.errors.expiry)}
-                helperText={formik.touched.expiry && formik.errors.expiry}
-                fullWidth
-              />
+              >
+                {/*@ts-ignore*/}
+                {() => (
+                  <TextField
+                    id="expiry"
+                    name="expiry"
+                    label="Expiry"
+                    type="text"
+                    size="small"
+                    error={
+                      formik.touched.expiry && Boolean(formik.errors.expiry)
+                    }
+                    helperText={formik.touched.expiry && formik.errors.expiry}
+                    placeholder="MM/YYYY"
+                    fullWidth
+                  />
+                )}
+              </InputMask>
             </ListItem>
             <ListItem>
               <TextField
@@ -94,9 +177,11 @@ export default function EditProductDialog() {
                 helperText={formik.touched.category && formik.errors.category}
                 fullWidth
               >
-                <MenuItem key="injections" value="injections">
-                  Injections
-                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.name}
+                  </MenuItem>
+                ))}
               </TextField>
             </ListItem>
             <ListItem>
@@ -150,6 +235,7 @@ export default function EditProductDialog() {
             size="small"
             type="submit"
             form="editProductForm"
+            disabled={isEditingProduct}
           >
             Edit
           </Button>
