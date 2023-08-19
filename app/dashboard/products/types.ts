@@ -5,6 +5,7 @@ export interface Product {
   stock: number;
   expiry: string;
   modifiedOn: string;
+  lowStockQuantity: number;
 }
 
 export interface ProductsState {
@@ -16,10 +17,11 @@ export interface ProductsState {
   isFetchingProduct: boolean;
   isFetchingProducts: boolean;
   isDeletingProduct: boolean;
-  isUpdatingProduct: boolean;
+  isEditingProduct: boolean;
   isConsumingProduct: boolean;
   toFetchProductId: string;
-  toUpdateProductId: string;
+  toEditProduct: Product;
+  toConsumeProduct: Product;
   toDeleteProductId: string;
   products: Product[];
   refetchProducts: boolean;

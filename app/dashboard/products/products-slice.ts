@@ -8,11 +8,28 @@ const initialState = {
   isEditProductDialogOpen: false,
   isAddingProduct: false,
   isFetchingProduct: false,
-  isUpdatingProduct: false,
+  isEditingProduct: false,
   isDeletingProduct: false,
   isConsumingProduct: false,
   isFetchingProducts: false,
-  toUpdateProductId: "",
+  toEditProduct: {
+    id: "",
+    name: "",
+    expiry: "",
+    stock: 0,
+    lowStockQuantity: 0,
+    modifiedOn: "",
+    category: "",
+  },
+  toConsumeProduct: {
+    id: "",
+    name: "",
+    expiry: "",
+    stock: 0,
+    lowStockQuantity: 0,
+    modifiedOn: "",
+    category: "",
+  },
   toFetchProductId: "",
   toDeleteProductId: "",
   products: [],
@@ -42,8 +59,8 @@ export const products = createSlice({
     setIsFetchingProduct: (state, action: PayloadAction<boolean>) => {
       state.isFetchingProduct = action.payload;
     },
-    setIsUpdatingProduct: (state, action: PayloadAction<boolean>) => {
-      state.isUpdatingProduct = action.payload;
+    setIsEditingProduct: (state, action: PayloadAction<boolean>) => {
+      state.isEditingProduct = action.payload;
     },
     setIsDeletingProduct: (state, action: PayloadAction<boolean>) => {
       state.isDeletingProduct = action.payload;
@@ -54,8 +71,11 @@ export const products = createSlice({
     setIsFetchingProducts: (state, action: PayloadAction<boolean>) => {
       state.isFetchingProducts = action.payload;
     },
-    setToUpdateProductId: (state, action: PayloadAction<string>) => {
-      state.toUpdateProductId = action.payload;
+    setToEditProduct: (state, action: PayloadAction<Product>) => {
+      state.toEditProduct = action.payload;
+    },
+    setToConsumeProduct: (state, action: PayloadAction<Product>) => {
+      state.toConsumeProduct = action.payload;
     },
     setToFetchProductId: (state, action: PayloadAction<string>) => {
       state.toFetchProductId = action.payload;
@@ -83,10 +103,11 @@ export const {
   setIsConsumingProduct,
   setIsDeletingProduct,
   setIsFetchingProduct,
-  setIsUpdatingProduct,
+  setIsEditingProduct,
   setToDeleteProductId,
   setToFetchProductId,
-  setToUpdateProductId,
+  setToEditProduct,
+  setToConsumeProduct,
   setProducts,
   setIsFetchingProducts,
 } = products.actions;
