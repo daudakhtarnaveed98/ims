@@ -56,7 +56,7 @@ export default function EditProductDialog() {
       oldStock: yup.number().required("Old stock is required"),
       newStock: yup
         .number()
-        .min(1, "New stock quantity must be greater than 0")
+        .min(0, "New stock quantity must be greater than or equal to 0")
         .required("New stock is required"),
     }),
     onSubmit: async (values) => {
