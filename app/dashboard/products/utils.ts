@@ -3,6 +3,7 @@ import {
   addDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
   doc,
 } from "firebase/firestore";
 import { Product } from "@/app/dashboard/products/types";
@@ -19,6 +20,7 @@ export const getProducts = async () => {
     name: doc.data().name,
     category: doc.data().category,
     stock: doc.data().stock,
+    lowStockQuantity: doc.data().lowStockQuantity,
     expiry: doc.data().expiry,
     modifiedOn: doc.data().modifiedOn,
   }));
@@ -27,4 +29,9 @@ export const getProducts = async () => {
 export const deleteProduct = async (id: string) => {
   const docRef = await doc(db, "products", id);
   await deleteDoc(docRef);
+};
+
+export const editProduct = async (id: string, product: Product) => {
+  const docRef = await doc(db, "products", id);
+  await updateDoc(docRef, { ...product });
 };
