@@ -41,6 +41,7 @@ export default function AddProductDialog() {
     initialValues: {
       name: "",
       stock: 0,
+      lowStockQuantity: 0,
       expiry: "",
       category: "",
       modifiedOn: "",
@@ -51,6 +52,10 @@ export default function AddProductDialog() {
         .number()
         .min(1, "Stock must be greater than 0")
         .required("Stock is required"),
+      lowStockQuantity: yup
+        .number()
+        .min(1, "Low stock quantity must be greater than 0")
+        .required("Low stock quantity is required"),
       expiry: yup.string().required("Expiry is required"),
       category: yup.string().required("Category is required"),
     }),
@@ -122,6 +127,27 @@ export default function AddProductDialog() {
                 onBlur={formik.handleBlur}
                 error={formik.touched.stock && Boolean(formik.errors.stock)}
                 helperText={formik.touched.stock && formik.errors.stock}
+                fullWidth
+              />
+            </ListItem>
+            <ListItem>
+              <TextField
+                id="lowStockQuantity"
+                name="lowStockQuantity"
+                label="Low stock quantity"
+                type="number"
+                size="small"
+                value={formik.values.lowStockQuantity}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.lowStockQuantity &&
+                  Boolean(formik.errors.lowStockQuantity)
+                }
+                helperText={
+                  formik.touched.lowStockQuantity &&
+                  formik.errors.lowStockQuantity
+                }
                 fullWidth
               />
             </ListItem>
