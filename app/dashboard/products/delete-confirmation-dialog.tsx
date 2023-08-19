@@ -8,19 +8,60 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsConfirmDialogOpen } from "@/app/dashboard/products/products-slice";
+import {
+  setIsConfirmDialogOpen,
+  setIsDeletingProduct,
+  setRefetchProducts,
+  setToDeleteProductId,
+} from "@/app/dashboard/products/products-slice";
+import { useSnackbar } from "notistack";
+import { deleteProduct } from "@/app/dashboard/products/utils";
 
 export default function DeleteConfirmationDialog() {
   const dispatch = useAppDispatch();
   const isConfirmDialogOpen = useAppSelector(
     (state) => state.productsReducer.isConfirmDialogOpen,
   );
+  const toDeleteProductId = useAppSelector(
+    (state) => state.productsReducer.toDeleteProductId,
+  );
+  const isDeletingProduct = useAppSelector(
+    (state) => state.productsReducer.isDeletingProduct,
+  );
+  const refetchProducts = useAppSelector(
+    (state) => state.productsReducer.refetchProducts,
+  );
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => {
+    dispatch(setToDeleteProductId(""));
     dispatch(setIsConfirmDialogOpen(false));
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    try {
+      enqueueSnackbar("Product is being deleted!", { variant: "info" });
+
+      dispatch(setIsDeletingProduct(true));
+
+      await deleteProduct(toDeleteProductId);
+
+      dispatch(setIsDeletingProduct(false));
+      dispatch(setIsConfirmDialogOpen(false));
+      dispatch(setRefetchProducts(!refetchProducts));
+
+      enqueueSnackbar("Product deleted successfully!", { variant: "success" });
+    } catch (e) {
+      console.error(e);
+
+      dispatch(setIsDeletingProduct(false));
+      dispatch(setIsConfirmDialogOpen(false));
+
+      enqueueSnackbar("An error occurred while deleting product!", {
+        variant: "error",
+      });
+    }
+  };
 
   return (
     <Dialog open={isConfirmDialogOpen} onClose={handleClose}>
@@ -44,6 +85,7 @@ export default function DeleteConfirmationDialog() {
           autoFocus
           variant="contained"
           size="small"
+          disabled={isDeletingProduct}
         >
           Delete
         </Button>
