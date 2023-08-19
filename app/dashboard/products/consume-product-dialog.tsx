@@ -6,7 +6,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsConsumeProductDialogOpen } from "@/app/dashboard/products/products-slice";
+import {
+  setIsConsumeProductDialogOpen,
+  setToConsumeProduct,
+} from "@/app/dashboard/products/products-slice";
 import { List, ListItem, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -34,6 +37,17 @@ export default function ConsumeProductDialog() {
 
   const handleClose = () => {
     formik.resetForm();
+    dispatch(
+      setToConsumeProduct({
+        id: "",
+        name: "",
+        category: "",
+        expiry: "",
+        stock: 0,
+        lowStockQuantity: 0,
+        modifiedOn: "",
+      }),
+    );
     dispatch(setIsConsumeProductDialogOpen(false));
   };
 
