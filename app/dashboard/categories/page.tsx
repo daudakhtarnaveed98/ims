@@ -43,7 +43,7 @@ export default function Categories() {
           <CircularProgress />
         </Box>
       ) : categories.length > 0 ? (
-        <List>
+        <List sx={{ mb: 8 }}>
           {categories.map((category) => (
             <ListItem key={category.id}>
               <CategoryCard id={category.id} name={category.name} />
