@@ -46,6 +46,12 @@ export default function CategoryFilter() {
           "aria-labelledby": "basic-button",
         }}
         TransitionComponent={Fade}
+        PaperProps={{
+          style: {
+            maxHeight: 224,
+            width: "20ch",
+          },
+        }}
       >
         {categories.map((category) => (
           <MenuItem
