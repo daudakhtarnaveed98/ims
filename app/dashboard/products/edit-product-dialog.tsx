@@ -182,11 +182,16 @@ export default function EditProductDialog() {
                 helperText={formik.touched.category && formik.errors.category}
                 fullWidth
               >
-                {categories.map((category) => (
-                  <MenuItem key={category.name} value={category.name}>
-                    {category.name}
-                  </MenuItem>
-                ))}
+                {categories.map(
+                  (category) =>
+                    category.name !== "All" &&
+                    category.name !== "Expires soon" &&
+                    category.name !== "Low stock" && (
+                      <MenuItem key={category.name} value={category.name}>
+                        {category.name}
+                      </MenuItem>
+                    ),
+                )}
               </TextField>
             </ListItem>
             <ListItem>
