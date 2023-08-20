@@ -16,6 +16,7 @@ export const useCategories = () => {
     try {
       const getCategoriesAsync = async () => {
         const categories = await getCategories();
+        categories.push({ name: "Unassigned", id: "unassigned" });
         dispatch(setCategories(categories));
       };
 
