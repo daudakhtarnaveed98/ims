@@ -5,7 +5,7 @@ import {
   BottomNavigation as MUIBottomNavigation,
   BottomNavigationAction as MUIBottomNavigationAction,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FeedIcon from "@mui/icons-material/Feed";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CategoryIcon from "@mui/icons-material/Category";
 import { useRouter, usePathname } from "next/navigation";
@@ -44,7 +44,7 @@ export default function BottomNavigation() {
 
           switch (newValue) {
             case 0:
-              router.push("/dashboard/consumptions");
+              router.push("/dashboard/logs");
               break;
             case 1:
               router.push("/dashboard/products");
@@ -55,10 +55,7 @@ export default function BottomNavigation() {
           }
         }}
       >
-        <MUIBottomNavigationAction
-          label="Consumptions"
-          icon={<ShoppingCartIcon />}
-        />
+        <MUIBottomNavigationAction label="Logs" icon={<FeedIcon />} />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
         <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
       </MUIBottomNavigation>
