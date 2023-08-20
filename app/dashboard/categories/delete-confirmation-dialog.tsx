@@ -16,6 +16,7 @@ import {
 } from "@/app/dashboard/categories/categories-slice";
 import { deleteCategory } from "@/app/dashboard/categories/utils";
 import { useSnackbar } from "notistack";
+import { UNDELETABLE_CATEGORIES } from "@/app/dashboard/categories/constants";
 
 export default function DeleteConfirmationDialog() {
   const dispatch = useAppDispatch();
@@ -49,6 +50,13 @@ export default function DeleteConfirmationDialog() {
       dispatch(setIsDeletingCategory(false));
       dispatch(setIsConfirmDialogOpen(false));
       dispatch(setRefetchCategories(!refetchCategories));
+
+      for (const unDeletableCategory of UNDELETABLE_CATEGORIES) {
+        if (toDeleteCategoryId === unDeletableCategory.id) {
+          enqueueSnackbar("Category cannot be deleted!", { variant: "error" });
+          return;
+        }
+      }
 
       enqueueSnackbar("Category deleted successfully!", { variant: "success" });
     } catch (e) {
