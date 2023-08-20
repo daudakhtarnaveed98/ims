@@ -57,7 +57,9 @@ export default function ProductCard({
         </Typography>
         <Typography variant="h6">{name}</Typography>
         <Typography color="text.secondary">Stock: {stock}</Typography>
-        <Typography color="text.secondary">Expiry: {expiry}</Typography>
+        <Typography color="text.secondary">
+          Expiry: {expiry === "" ? "N/A" : expiry}
+        </Typography>
         <Typography color="text.secondary">
           Modified On: {modifiedOn}
         </Typography>
