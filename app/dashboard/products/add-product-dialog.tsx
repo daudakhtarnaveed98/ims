@@ -56,7 +56,9 @@ export default function AddProductDialog() {
         .number()
         .min(1, "Low stock quantity must be greater than 0")
         .required("Low stock quantity is required"),
-      expiry: yup.string().required("Expiry is required"),
+      expiry: yup.string().matches(new RegExp("(0[1-9]|10|11|12)/[0-9]{4}"), {
+        message: "Expiry should be in MM/YYYY format",
+      }),
       category: yup.string().required("Category is required"),
     }),
     onSubmit: async (values: Product) => {

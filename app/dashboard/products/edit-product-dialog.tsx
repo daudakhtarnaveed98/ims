@@ -51,7 +51,12 @@ export default function EditProductDialog() {
     },
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
-      expiry: yup.string().required("Expiry is required"),
+      expiry: yup
+        .string()
+        .matches(new RegExp("(0[1-9]|10|11|12)/[0-9]{4}"), {
+          message: "Expiry should be in MM/YYYY format",
+        })
+        .required("Expiry is required"),
       category: yup.string().required("Category is required"),
       oldStock: yup.number().required("Old stock is required"),
       newStock: yup
