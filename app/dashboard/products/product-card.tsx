@@ -35,11 +35,19 @@ export default function ProductCard({
 
   return (
     <Card sx={{ width: "100%" }}>
-      {stock <= lowStockQuantity && (
+      {stock <= lowStockQuantity && stock > 0 && (
         <Chip
           sx={{ m: 1, float: "right" }}
           label="Low stock"
           color="warning"
+          size="small"
+        />
+      )}
+      {stock === 0 && (
+        <Chip
+          sx={{ m: 1, float: "right" }}
+          label="Out of stock"
+          color="error"
           size="small"
         />
       )}

@@ -35,3 +35,8 @@ export const editProduct = async (id: string, product: Product) => {
   const docRef = await doc(db, "products", id);
   await updateDoc(docRef, { ...product });
 };
+
+export const consumeProduct = async (id: string, product: Product) => {
+  const docRef = await doc(db, "products", id);
+  await updateDoc(docRef, { ...product });
+};
