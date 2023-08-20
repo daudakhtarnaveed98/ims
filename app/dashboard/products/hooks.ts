@@ -29,5 +29,9 @@ export const useProducts = () => {
 
       dispatch(setIsFetchingProducts(false));
     }
+
+    return () => {
+      dispatch(setProducts([]));
+    };
   }, [dispatch, refetchProducts]);
 };
