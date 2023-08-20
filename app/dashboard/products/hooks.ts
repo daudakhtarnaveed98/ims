@@ -13,6 +13,8 @@ export const useProducts = () => {
   );
 
   useEffect(() => {
+    dispatch(setProducts([]));
+
     try {
       const getProductsAsync = async () => {
         const products = await getProducts();
