@@ -34,6 +34,7 @@ const initialState = {
   toDeleteProductId: "",
   products: [],
   refetchProducts: false,
+  searchQuery: "",
 } as ProductsState;
 
 export const products = createSlice({
@@ -89,6 +90,9 @@ export const products = createSlice({
     setRefetchProducts: (state, action: PayloadAction<boolean>) => {
       state.refetchProducts = action.payload;
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
@@ -110,5 +114,6 @@ export const {
   setToConsumeProduct,
   setProducts,
   setIsFetchingProducts,
+  setSearchQuery,
 } = products.actions;
 export default products.reducer;

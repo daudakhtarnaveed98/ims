@@ -6,10 +6,17 @@ import {
   setProducts,
 } from "@/app/dashboard/products/products-slice";
 
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+  return value !== null && value !== undefined;
+}
+
 export const useProducts = () => {
   const dispatch = useAppDispatch();
   const refetchProducts = useAppSelector(
     (state) => state.productsReducer.refetchProducts,
+  );
+  const searchQuery = useAppSelector(
+    (state) => state.productsReducer.searchQuery,
   );
 
   useEffect(() => {
@@ -18,7 +25,18 @@ export const useProducts = () => {
     try {
       const getProductsAsync = async () => {
         const products = await getProducts();
-        dispatch(setProducts(products));
+
+        const results = products
+          .map((product) => {
+            if (product.name.includes(searchQuery)) {
+              return product;
+            } else {
+              return null;
+            }
+          })
+          .filter(notEmpty);
+
+        dispatch(setProducts(results));
       };
 
       dispatch(setIsFetchingProducts(true));
@@ -31,5 +49,5 @@ export const useProducts = () => {
 
       dispatch(setIsFetchingProducts(false));
     }
-  }, [dispatch, refetchProducts]);
+  }, [dispatch, refetchProducts, searchQuery]);
 };

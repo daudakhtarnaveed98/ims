@@ -25,4 +25,5 @@ export interface ProductsState {
   toDeleteProductId: string;
   products: Product[];
   refetchProducts: boolean;
+  searchQuery: string;
 }

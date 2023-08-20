@@ -13,6 +13,7 @@ import ProductCard from "@/app/dashboard/products/product-card";
 import { useProducts } from "@/app/dashboard/products/hooks";
 import { useAppSelector } from "@/redux/hooks";
 import Box from "@mui/material/Box";
+import SearchForm from "@/app/dashboard/products/search-form";
 
 export default function Products() {
   useProducts();
@@ -30,6 +31,8 @@ export default function Products() {
       >
         Products
       </Typography>
+      <Divider />
+      <SearchForm />
       <Divider />
       {isFetchingProducts ? (
         <Box
