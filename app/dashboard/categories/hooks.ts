@@ -16,7 +16,16 @@ export const useCategories = () => {
     try {
       const getCategoriesAsync = async () => {
         const categories = await getCategories();
+        categories.push({ name: "All", id: "all" });
         categories.push({ name: "Unassigned", id: "unassigned" });
+        categories.push({
+          id: "expiresSoon",
+          name: "Expires soon",
+        });
+        categories.push({
+          id: "lowStock",
+          name: "Low stock",
+        });
         dispatch(setCategories(categories));
       };
 

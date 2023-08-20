@@ -35,6 +35,7 @@ const initialState = {
   products: [],
   refetchProducts: false,
   searchQuery: "",
+  selectedCategory: "",
 } as ProductsState;
 
 export const products = createSlice({
@@ -93,6 +94,9 @@ export const products = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
+    setSelectedCategory: (state, action: PayloadAction<string>) => {
+      state.selectedCategory = action.payload;
+    },
   },
 });
 
@@ -115,5 +119,6 @@ export const {
   setProducts,
   setIsFetchingProducts,
   setSearchQuery,
+  setSelectedCategory,
 } = products.actions;
 export default products.reducer;

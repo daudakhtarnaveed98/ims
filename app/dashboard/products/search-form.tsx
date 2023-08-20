@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { useAppDispatch } from "@/redux/hooks";
 import { setSearchQuery } from "@/app/dashboard/products/products-slice";
+import CategoryFilter from "@/app/dashboard/products/category-filter";
 
 export default function SearchForm() {
   const dispatch = useAppDispatch();
@@ -41,6 +42,7 @@ export default function SearchForm() {
         >
           Search
         </Button>
+        <CategoryFilter />
       </Box>
     </form>
   );

@@ -26,4 +26,5 @@ export interface ProductsState {
   products: Product[];
   refetchProducts: boolean;
   searchQuery: string;
+  selectedCategory: string;
 }
