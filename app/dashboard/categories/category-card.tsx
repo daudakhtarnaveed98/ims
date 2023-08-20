@@ -15,9 +15,19 @@ import {
 } from "@/app/dashboard/categories/categories-slice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Category } from "@/app/dashboard/categories/types";
+import { UNDELETABLE_CATEGORIES } from "@/app/dashboard/categories/constants";
 
 export default function CategoryCard({ id, name }: Category) {
   const dispatch = useAppDispatch();
+
+  const isDisabled = () => {
+    for (const unDeletableCategory of UNDELETABLE_CATEGORIES) {
+      if (unDeletableCategory.id === id) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return (
     <Card sx={{ width: "100%" }}>
@@ -35,6 +45,7 @@ export default function CategoryCard({ id, name }: Category) {
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
+          disabled={isDisabled()}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
