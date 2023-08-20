@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Alert,
   CircularProgress,
@@ -11,16 +11,24 @@ import {
 } from "@mui/material";
 import ProductCard from "@/app/dashboard/products/product-card";
 import { useProducts } from "@/app/dashboard/products/hooks";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Box from "@mui/material/Box";
 import SearchForm from "@/app/dashboard/products/search-form";
+import { reset } from "@/app/dashboard/products/products-slice";
 
 export default function Products() {
   useProducts();
+  const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.productsReducer.products);
   const isFetchingProducts = useAppSelector(
     (state) => state.productsReducer.isFetchingProducts,
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   return (
     <>

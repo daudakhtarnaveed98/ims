@@ -13,8 +13,6 @@ export const useCategories = () => {
   );
 
   useEffect(() => {
-    dispatch(setCategories([]));
-
     try {
       const getCategoriesAsync = async () => {
         const categories = await getCategories();

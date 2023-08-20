@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import CategoryCard from "@/app/dashboard/categories/category-card";
 import {
   Alert,
@@ -10,12 +10,13 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Box from "@mui/material/Box";
 import { useCategories } from "@/app/dashboard/categories/hooks";
 
 export default function Categories() {
   useCategories();
+  const dispatch = useAppDispatch();
   const categories = useAppSelector(
     (state) => state.categoriesReducer.categories,
   );

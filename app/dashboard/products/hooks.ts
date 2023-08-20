@@ -4,6 +4,7 @@ import { getProducts } from "@/app/dashboard/products/utils";
 import {
   setIsFetchingProducts,
   setProducts,
+  setSearchQuery,
 } from "@/app/dashboard/products/products-slice";
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
@@ -20,8 +21,6 @@ export const useProducts = () => {
   );
 
   useEffect(() => {
-    dispatch(setProducts([]));
-
     try {
       const getProductsAsync = async () => {
         const products = await getProducts();
