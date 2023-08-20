@@ -30,9 +30,5 @@ export const useCategories = () => {
 
       dispatch(setIsFetchingCategory(false));
     }
-
-    return () => {
-      dispatch(setCategories([]));
-    };
   }, [dispatch, refetchCategories]);
 };
