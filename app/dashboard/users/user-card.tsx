@@ -28,9 +28,10 @@ export default function UserCard({ id, email, role, uid }: User) {
   const isDeletingUser = useAppSelector(
     (state) => state.usersReducer.isDeletingUser,
   );
+  const { role: userRole } = useAppSelector((state) => state.userReducer.user);
 
   const isDisabled = () => {
-    return role !== "OWNER";
+    return userRole !== "OWNER";
   };
 
   return (
