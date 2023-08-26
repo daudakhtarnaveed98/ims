@@ -20,10 +20,13 @@ import { useCategories } from "@/app/dashboard/categories/hooks";
 import { useSnackbar } from "notistack";
 import { editProduct } from "@/app/dashboard/products/utils";
 import { DateTime } from "luxon";
+import { addProductEditLog } from "@/app/dashboard/logs/utils";
+import { setRefetchLogs } from "@/app/dashboard/logs/logs-slice";
 
 export default function EditProductDialog() {
   useCategories();
   const dispatch = useAppDispatch();
+  const { email } = useAppSelector((state) => state.userReducer.user);
   const isEditProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isEditProductDialogOpen,
   );
@@ -39,6 +42,7 @@ export default function EditProductDialog() {
   const isEditingProduct = useAppSelector(
     (state) => state.productsReducer.isEditingProduct,
   );
+  const refetchLogs = useAppSelector((state) => state.logsReducer.refetchLogs);
   const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
@@ -91,6 +95,15 @@ export default function EditProductDialog() {
         dispatch(setIsEditProductDialogOpen(false));
         dispatch(setRefetchProducts(!refetchProducts));
         formik.resetForm();
+
+        await addProductEditLog(
+          email,
+          toEditProduct.name,
+          toEditProduct,
+          update,
+        );
+
+        dispatch(setRefetchLogs(!refetchLogs));
 
         enqueueSnackbar("Product edited successfully!", { variant: "success" });
       } catch (e) {

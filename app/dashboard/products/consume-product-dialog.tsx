@@ -18,9 +18,11 @@ import * as yup from "yup";
 import { DateTime } from "luxon";
 import { useSnackbar } from "notistack";
 import { consumeProduct } from "@/app/dashboard/products/utils";
+import { addProductConsumeLog } from "@/app/dashboard/logs/utils";
 
 export default function ConsumeProductDialog() {
   const dispatch = useAppDispatch();
+  const { email } = useAppSelector((state) => state.userReducer.user);
   const isConsumeProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isConsumeProductDialogOpen,
   );
@@ -77,6 +79,12 @@ export default function ConsumeProductDialog() {
         dispatch(setIsConsumeProductDialogOpen(false));
         dispatch(setRefetchProducts(!refetchProducts));
         formik.resetForm();
+
+        await addProductConsumeLog(
+          email,
+          toConsumeProduct.name,
+          toConsumeProduct.stock,
+        );
 
         enqueueSnackbar("Product consumed successfully!", {
           variant: "success",

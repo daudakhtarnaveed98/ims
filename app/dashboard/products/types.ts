@@ -23,6 +23,7 @@ export interface ProductsState {
   toFetchProductId: string;
   toEditProduct: Product;
   toConsumeProduct: Product;
+  toDeleteProduct: Product;
   toDeleteProductId: string;
   products: Product[];
   refetchProducts: boolean;

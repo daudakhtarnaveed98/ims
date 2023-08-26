@@ -12,18 +12,25 @@ import {
   setIsConfirmDialogOpen,
   setIsDeletingProduct,
   setRefetchProducts,
+  setToDeleteProduct,
   setToDeleteProductId,
 } from "@/app/dashboard/products/products-slice";
 import { useSnackbar } from "notistack";
 import { deleteProduct } from "@/app/dashboard/products/utils";
+import { addProductDeleteLog } from "@/app/dashboard/logs/utils";
+import { setRefetchLogs } from "@/app/dashboard/logs/logs-slice";
 
 export default function DeleteConfirmationDialog() {
   const dispatch = useAppDispatch();
+  const { email } = useAppSelector((state) => state.userReducer.user);
   const isConfirmDialogOpen = useAppSelector(
     (state) => state.productsReducer.isConfirmDialogOpen,
   );
   const toDeleteProductId = useAppSelector(
     (state) => state.productsReducer.toDeleteProductId,
+  );
+  const toDeleteProduct = useAppSelector(
+    (state) => state.productsReducer.toDeleteProduct,
   );
   const isDeletingProduct = useAppSelector(
     (state) => state.productsReducer.isDeletingProduct,
@@ -31,10 +38,23 @@ export default function DeleteConfirmationDialog() {
   const refetchProducts = useAppSelector(
     (state) => state.productsReducer.refetchProducts,
   );
+  const refetchLogs = useAppSelector((state) => state.logsReducer.refetchLogs);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => {
     dispatch(setToDeleteProductId(""));
+    dispatch(
+      setToDeleteProduct({
+        id: "",
+        name: "",
+        category: "",
+        expiry: "",
+        stock: 0,
+        lowStockQuantity: 0,
+        modifiedOn: "",
+        isExpiryMandatory: false,
+      }),
+    );
     dispatch(setIsConfirmDialogOpen(false));
   };
 
@@ -49,6 +69,10 @@ export default function DeleteConfirmationDialog() {
       dispatch(setIsDeletingProduct(false));
       dispatch(setIsConfirmDialogOpen(false));
       dispatch(setRefetchProducts(!refetchProducts));
+
+      await addProductDeleteLog(email, toDeleteProduct.name);
+
+      dispatch(setRefetchLogs(!refetchLogs));
 
       enqueueSnackbar("Product deleted successfully!", { variant: "success" });
     } catch (e) {

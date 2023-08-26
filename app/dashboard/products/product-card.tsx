@@ -9,6 +9,7 @@ import {
   setIsConsumeProductDialogOpen,
   setIsEditProductDialogOpen,
   setToConsumeProduct,
+  setToDeleteProduct,
   setToDeleteProductId,
   setToEditProduct,
 } from "@/app/dashboard/products/products-slice";
@@ -154,8 +155,29 @@ export default function ProductCard({
         <IconButton
           color="error"
           onClick={() => {
-            if (id != null) {
+            if (
+              id != null &&
+              name != null &&
+              category != null &&
+              stock != null &&
+              expiry != null &&
+              modifiedOn != null &&
+              lowStockQuantity != null &&
+              isExpiryMandatory != null
+            ) {
               dispatch(setToDeleteProductId(id));
+              dispatch(
+                setToDeleteProduct({
+                  id,
+                  name,
+                  category,
+                  stock,
+                  expiry,
+                  modifiedOn,
+                  lowStockQuantity,
+                  isExpiryMandatory,
+                }),
+              );
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}

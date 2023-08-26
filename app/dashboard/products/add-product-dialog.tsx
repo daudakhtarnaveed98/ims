@@ -26,16 +26,20 @@ import { addProduct } from "@/app/dashboard/products/utils";
 import { Product } from "@/app/dashboard/products/types";
 import { useCategories } from "@/app/dashboard/categories/hooks";
 import InputMask from "react-input-mask";
+import { addProductAddLog } from "@/app/dashboard/logs/utils";
+import { setRefetchLogs } from "@/app/dashboard/logs/logs-slice";
 
 export default function AddProductDialog() {
   useCategories();
   const dispatch = useAppDispatch();
+  const { email } = useAppSelector((state) => state.userReducer.user);
   const isAddProductDialogOpen = useAppSelector(
     (state) => state.productsReducer.isAddProductDialogOpen,
   );
   const refetchProducts = useAppSelector(
     (state) => state.productsReducer.refetchProducts,
   );
+  const refetchLogs = useAppSelector((state) => state.logsReducer.refetchLogs);
   const { enqueueSnackbar } = useSnackbar();
   const categories = useAppSelector(
     (state) => state.categoriesReducer.categories,
@@ -85,6 +89,9 @@ export default function AddProductDialog() {
         formik.resetForm();
 
         enqueueSnackbar("Product added successfully!", { variant: "success" });
+
+        await addProductAddLog(email, values.name, values.stock);
+        dispatch(setRefetchLogs(!refetchLogs));
       } catch (e) {
         console.error(e);
 

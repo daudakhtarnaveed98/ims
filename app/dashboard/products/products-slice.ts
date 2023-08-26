@@ -30,6 +30,15 @@ const initialState = {
     modifiedOn: "",
     category: "",
   },
+  toDeleteProduct: {
+    id: "",
+    name: "",
+    expiry: "",
+    stock: 0,
+    lowStockQuantity: 0,
+    modifiedOn: "",
+    category: "",
+  },
   toFetchProductId: "",
   toDeleteProductId: "",
   products: [],
@@ -79,6 +88,9 @@ export const products = createSlice({
     setToConsumeProduct: (state, action: PayloadAction<Product>) => {
       state.toConsumeProduct = action.payload;
     },
+    setToDeleteProduct: (state, action: PayloadAction<Product>) => {
+      state.toDeleteProduct = action.payload;
+    },
     setToFetchProductId: (state, action: PayloadAction<string>) => {
       state.toFetchProductId = action.payload;
     },
@@ -120,5 +132,6 @@ export const {
   setIsFetchingProducts,
   setSearchQuery,
   setSelectedCategory,
+  setToDeleteProduct,
 } = products.actions;
 export default products.reducer;
