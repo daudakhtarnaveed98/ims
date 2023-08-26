@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   setIsConfirmDialogOpen,
   setIsConsumeProductDialogOpen,
@@ -30,6 +30,15 @@ export default function ProductCard({
   isExpiryMandatory,
 }: Product) {
   const dispatch = useAppDispatch();
+  const isConsumingProduct = useAppSelector(
+    (state) => state.productsReducer.isConsumingProduct,
+  );
+  const isDeletingProduct = useAppSelector(
+    (state) => state.productsReducer.isDeletingProduct,
+  );
+  const isEditingProduct = useAppSelector(
+    (state) => state.productsReducer.isEditingProduct,
+  );
   const expiresInMonths = DateTime.fromFormat(expiry, "MM/yyyy")
     .diff(DateTime.now(), "months")
     .toObject()["months"];
@@ -102,6 +111,7 @@ export default function ProductCard({
               dispatch(setIsEditProductDialogOpen(true));
             }
           }}
+          disabled={isEditingProduct}
         >
           <EditIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -133,6 +143,7 @@ export default function ProductCard({
               dispatch(setIsConsumeProductDialogOpen(true));
             }
           }}
+          disabled={isConsumingProduct}
         >
           <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -144,6 +155,7 @@ export default function ProductCard({
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
+          disabled={isDeletingProduct}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
