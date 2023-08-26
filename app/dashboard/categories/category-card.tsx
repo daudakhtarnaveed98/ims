@@ -8,7 +8,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   setIsConfirmDialogOpen,
   setToDeleteCategoryId,
@@ -19,6 +19,9 @@ import { UNDELETABLE_CATEGORIES } from "@/app/dashboard/categories/constants";
 
 export default function CategoryCard({ id, name }: Category) {
   const dispatch = useAppDispatch();
+  const isDeletingCategory = useAppSelector(
+    (state) => state.categoriesReducer.isDeletingCategory,
+  );
 
   const isDisabled = () => {
     for (const unDeletableCategory of UNDELETABLE_CATEGORIES) {
@@ -45,7 +48,7 @@ export default function CategoryCard({ id, name }: Category) {
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
-          disabled={isDisabled()}
+          disabled={isDisabled() || isDeletingCategory}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
