@@ -197,11 +197,15 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
+        <Typography component="h1" variant="h4">
+          Ghauri Medics
+        </Typography>
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
+
         <Typography component="h1" variant="h5">
-          Sign in
+          Login
         </Typography>
         <form id="loginForm" onSubmit={formik.handleSubmit}>
           <Box sx={{ mt: 1 }}>
@@ -238,7 +242,7 @@ export default function SignIn() {
               form="loginForm"
               disabled={isLoggingIn || isIsSendingVerificationEmail}
             >
-              Sign In
+              Login
             </Button>
           </Box>
         </form>
