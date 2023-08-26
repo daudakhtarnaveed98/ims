@@ -21,6 +21,7 @@ import {
 import "@/firebase";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
+  reset,
   setIsLoggingIn,
   setIsSendingVerificationEmail,
   setUser,
@@ -29,6 +30,8 @@ import { useSnackbar } from "notistack";
 // @ts-ignore
 import firebase from "firebase/compat";
 import FirebaseError = firebase.FirebaseError;
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function Copyright(props: any) {
   return (
@@ -49,7 +52,10 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
+  const router = useRouter();
+  const pathname = usePathname();
   const auth = getAuth();
+  const user = useAppSelector((state) => state.userReducer.user);
   const isLoggingIn = useAppSelector((state) => state.userReducer.isLoggingIn);
   const isIsSendingVerificationEmail = useAppSelector(
     (state) => state.userReducer.isSendingVerificationEmail,
@@ -120,11 +126,14 @@ export default function SignIn() {
           message: "User logged in successfully!",
           variant: "success",
         });
+
+        router.push("/dashboard/logs");
       } catch (e: FirebaseError) {
         console.error(e);
 
         dispatch(setIsLoggingIn(false));
         dispatch(setIsSendingVerificationEmail(false));
+        dispatch(reset());
 
         const { code } = e;
 
@@ -163,6 +172,21 @@ export default function SignIn() {
       }
     },
   });
+
+  useEffect(() => {
+    const isUserLoggedIn = () => {
+      return Object.keys(user).length !== 0;
+    };
+
+    if (isUserLoggedIn() && pathname === "/login") {
+      router.push("/dashboard/logs");
+
+      enqueueSnackbar({
+        message: "Redirecting to dashboard/logs",
+        variant: "info",
+      });
+    }
+  }, [router, pathname, user, enqueueSnackbar]);
 
   return (
     <Container component="main" maxWidth="xs">

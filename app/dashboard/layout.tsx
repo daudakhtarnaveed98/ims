@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
 import AddButton from "@/app/dashboard/add-button";
@@ -12,12 +12,35 @@ import CategoryDeleteConfirmationDialog from "@/app/dashboard/categories/delete-
 import ProductDeleteConfirmationDialog from "@/app/dashboard/products/delete-confirmation-dialog";
 import UserDeleteConfirmationDialog from "@/app/dashboard/users/delete-confirmation-dialog";
 import AddUserDialog from "@/app/dashboard/users/add-user-dialog";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
+import { useSnackbar } from "notistack";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+  const pathname = usePathname();
+  const user = useAppSelector((state) => state.userReducer.user);
+
+  useEffect(() => {
+    const isUserLoggedIn = () => {
+      return Object.keys(user).length !== 0;
+    };
+
+    if (!isUserLoggedIn() && pathname !== "/") {
+      router.push("/login");
+
+      enqueueSnackbar({
+        message: "Please login to your account!",
+        variant: "error",
+      });
+    }
+  }, [router, pathname, user, enqueueSnackbar]);
+
   return (
     <>
       <AddUserDialog />
