@@ -14,7 +14,7 @@ export const user = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
-    setUser: (state, action: PayloadAction<object>) => {
+    setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
     setIsLoggingIn: (state, action: PayloadAction<boolean>) => {

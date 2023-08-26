@@ -1,5 +1,5 @@
 export interface UserState {
-  user: object;
+  user: any;
   isLoggingIn: boolean;
   isSendingVerificationEmail: boolean;
 }
