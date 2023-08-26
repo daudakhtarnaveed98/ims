@@ -63,6 +63,7 @@ export default function Products() {
                 expiry={product.expiry}
                 modifiedOn={product.modifiedOn}
                 lowStockQuantity={product.lowStockQuantity}
+                isExpiryMandatory={product.isExpiryMandatory}
               />
             </ListItem>
           ))}

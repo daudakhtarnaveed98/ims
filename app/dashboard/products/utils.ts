@@ -23,6 +23,7 @@ export const getProducts = async () => {
     lowStockQuantity: doc.data().lowStockQuantity,
     expiry: doc.data().expiry,
     modifiedOn: doc.data().modifiedOn,
+    isExpiryMandatory: doc.data().isExpiryMandatory,
   }));
 };
 

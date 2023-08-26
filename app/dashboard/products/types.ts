@@ -6,6 +6,7 @@ export interface Product {
   expiry: string;
   modifiedOn: string;
   lowStockQuantity: number;
+  isExpiryMandatory?: boolean;
 }
 
 export interface ProductsState {

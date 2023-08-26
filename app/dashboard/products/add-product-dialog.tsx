@@ -11,7 +11,13 @@ import {
   setIsAddProductDialogOpen,
   setRefetchProducts,
 } from "@/app/dashboard/products/products-slice";
-import { List, ListItem, MenuItem } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  List,
+  ListItem,
+  MenuItem,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { DateTime } from "luxon";
@@ -45,6 +51,7 @@ export default function AddProductDialog() {
       expiry: "",
       category: "",
       modifiedOn: "",
+      isExpiryMandatory: false,
     },
     validationSchema: yup.object({
       name: yup.string().required("Name is required"),
@@ -60,6 +67,7 @@ export default function AddProductDialog() {
         message: "Expiry should be in MM/YYYY format",
       }),
       category: yup.string().required("Category is required"),
+      isExpiryMandatory: yup.boolean(),
     }),
     onSubmit: async (values: Product) => {
       values["modifiedOn"] = DateTime.now().toFormat("dd/MM/yyyy");
@@ -90,6 +98,8 @@ export default function AddProductDialog() {
       }
     },
   });
+
+  const label = { inputProps: { "aria-label": "Is expiry mandatory" } };
 
   const handleClose = () => {
     formik.resetForm();
@@ -205,6 +215,22 @@ export default function AddProductDialog() {
                     ),
                 )}
               </TextField>
+            </ListItem>
+            <ListItem>
+              <FormControlLabel
+                id="isExpiryMandatory"
+                name="isExpiryMandatory"
+                control={
+                  <Checkbox
+                    id="isExpiryMandatory"
+                    name="isExpiryMandatory"
+                    value={formik.values.isExpiryMandatory}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                }
+                label="Is expiry mandatory"
+              />
             </ListItem>
           </List>
         </DialogContent>

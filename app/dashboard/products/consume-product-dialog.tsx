@@ -107,6 +107,7 @@ export default function ConsumeProductDialog() {
         stock: 0,
         lowStockQuantity: 0,
         modifiedOn: "",
+        isExpiryMandatory: false,
       }),
     );
     dispatch(setIsConsumeProductDialogOpen(false));

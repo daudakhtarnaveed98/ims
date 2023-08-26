@@ -27,6 +27,7 @@ export default function ProductCard({
   expiry,
   modifiedOn,
   lowStockQuantity,
+  isExpiryMandatory,
 }: Product) {
   const dispatch = useAppDispatch();
   const expiresInMonths = DateTime.fromFormat(expiry, "MM/yyyy")
@@ -83,7 +84,8 @@ export default function ProductCard({
               stock != null &&
               expiry != null &&
               modifiedOn != null &&
-              lowStockQuantity != null
+              lowStockQuantity != null &&
+              isExpiryMandatory != null
             ) {
               dispatch(
                 setToEditProduct({
@@ -94,6 +96,7 @@ export default function ProductCard({
                   expiry,
                   modifiedOn,
                   lowStockQuantity,
+                  isExpiryMandatory,
                 }),
               );
               dispatch(setIsEditProductDialogOpen(true));
@@ -112,7 +115,8 @@ export default function ProductCard({
               stock != null &&
               expiry != null &&
               modifiedOn != null &&
-              lowStockQuantity != null
+              lowStockQuantity != null &&
+              isExpiryMandatory != null
             ) {
               dispatch(
                 setToConsumeProduct({
@@ -123,6 +127,7 @@ export default function ProductCard({
                   expiry,
                   modifiedOn,
                   lowStockQuantity,
+                  isExpiryMandatory,
                 }),
               );
               dispatch(setIsConsumeProductDialogOpen(true));
