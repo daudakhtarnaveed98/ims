@@ -13,6 +13,7 @@ export interface UsersState {
   isFetchingUsers: boolean;
   isAddingUser: boolean;
   isDeletingUser: boolean;
+  isSendingPasswordResetEmail: boolean;
   toDeleteUser: User;
   toEditUser: User;
   users: User[];

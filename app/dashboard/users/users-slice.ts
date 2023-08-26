@@ -12,6 +12,7 @@ const initialState = {
   toEditUser: { id: "", uid: "", email: "", role: "" },
   refetchUsers: false,
   users: [],
+  isSendingPasswordResetEmail: false,
 } as UsersState;
 
 export const users = createSlice({
@@ -49,6 +50,9 @@ export const users = createSlice({
     setToEditUser: (state, action: PayloadAction<User>) => {
       state.toEditUser = action.payload;
     },
+    setIsSendingPasswordResetEmail: (state, action: PayloadAction<boolean>) => {
+      state.isSendingPasswordResetEmail = action.payload;
+    },
   },
 });
 
@@ -64,5 +68,6 @@ export const {
   setUsers,
   setToDeleteUser,
   setIsEditUserDialogOpen,
+  setIsSendingPasswordResetEmail,
 } = users.actions;
 export default users.reducer;

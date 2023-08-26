@@ -3,17 +3,31 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { User } from "@/app/dashboard/users/types";
 import {
   setIsConfirmDialogOpen,
+  setIsSendingPasswordResetEmail,
   setToDeleteUser,
 } from "@/app/dashboard/users/users-slice";
+import { LockReset } from "@mui/icons-material";
+import { sendPasswordResetEmail } from "@firebase/auth";
+import { getAuth } from "firebase/auth";
+import { firebaseApp } from "@/firebase";
+import { useSnackbar } from "notistack";
 
 export default function UserCard({ id, email, role, uid }: User) {
   const dispatch = useAppDispatch();
+  const auth = getAuth(firebaseApp);
+  const { enqueueSnackbar } = useSnackbar();
+  const isSendingPasswordResetEmail = useAppSelector(
+    (state) => state.usersReducer.isSendingPasswordResetEmail,
+  );
+  const isDeletingUser = useAppSelector(
+    (state) => state.usersReducer.isDeletingUser,
+  );
 
   const isDisabled = () => {
     return role !== "OWNER";
@@ -30,6 +44,37 @@ export default function UserCard({ id, email, role, uid }: User) {
       </CardContent>
       <CardActions>
         <IconButton
+          color="primary"
+          onClick={async () => {
+            if (id != null && uid != null && email != null && role != null) {
+              try {
+                dispatch(setIsSendingPasswordResetEmail(true));
+                await sendPasswordResetEmail(auth, email);
+
+                enqueueSnackbar({
+                  message: "Password reset email sent successfully!",
+                  variant: "success",
+                });
+
+                dispatch(setIsSendingPasswordResetEmail(false));
+              } catch (e) {
+                enqueueSnackbar({
+                  message:
+                    "An error occurred while sending password reset email!",
+                  variant: "error",
+                });
+
+                dispatch(setIsSendingPasswordResetEmail(false));
+
+                console.error(e);
+              }
+            }
+          }}
+          disabled={isDisabled() || isSendingPasswordResetEmail}
+        >
+          <LockReset sx={{ height: 24, width: 24 }} />
+        </IconButton>
+        <IconButton
           color="error"
           onClick={() => {
             if (id != null && uid != null && email != null && role != null) {
@@ -44,7 +89,7 @@ export default function UserCard({ id, email, role, uid }: User) {
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
-          disabled={isDisabled()}
+          disabled={isDisabled() || isDeletingUser}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
