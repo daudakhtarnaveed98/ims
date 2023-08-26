@@ -1,12 +1,7 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type UserState = {
-  user: object;
-  isLoggingIn: boolean;
-  isSendingVerificationEmail: boolean;
-};
+import { UserState } from "./types";
 
 const initialState = {
   user: {},
