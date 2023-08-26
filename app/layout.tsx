@@ -1,3 +1,5 @@
+"use client";
+
 import "./globals.css";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -5,16 +7,11 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import React from "react";
 import "@fontsource/inter";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "@/redux/providers";
+import { SnackbarProvider } from "notistack";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Ghauri Medics",
-  description: "An inventory management system for clinics.",
-};
 
 export default function RootLayout({
   children,
@@ -23,9 +20,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Providers>
-        <body className={inter.className}>{children}</body>
-      </Providers>
+      <body className={inter.className}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          maxSnack={2}
+          autoHideDuration={1000}
+        >
+          <Providers>{children}</Providers>
+        </SnackbarProvider>
+      </body>
     </html>
   );
 }

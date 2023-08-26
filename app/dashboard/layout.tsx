@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Box, Paper } from "@mui/material";
-import { SnackbarProvider } from "notistack";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
 import AddButton from "@/app/dashboard/add-button";
 import AddCategoryDialog from "@/app/dashboard/categories/add-category-dialog";
@@ -11,6 +10,8 @@ import ConsumeProductDialog from "@/app/dashboard/products/consume-product-dialo
 import EditProductDialog from "@/app/dashboard/products/edit-product-dialog";
 import CategoryDeleteConfirmationDialog from "@/app/dashboard/categories/delete-confirmation-dialog";
 import ProductDeleteConfirmationDialog from "@/app/dashboard/products/delete-confirmation-dialog";
+import UserDeleteConfirmationDialog from "@/app/dashboard/users/delete-confirmation-dialog";
+import AddUserDialog from "@/app/dashboard/users/add-user-dialog";
 
 export default function DashboardLayout({
   children,
@@ -18,16 +19,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SnackbarProvider
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      maxSnack={2}
-      autoHideDuration={1000}
-    >
+    <>
+      <AddUserDialog />
       <CategoryDeleteConfirmationDialog />
       <ProductDeleteConfirmationDialog />
+      <UserDeleteConfirmationDialog />
       <AddCategoryDialog />
       <EditProductDialog />
       <AddProductDialog />
@@ -42,6 +38,6 @@ export default function DashboardLayout({
           <BottomNavigation />
         </Paper>
       </Box>
-    </SnackbarProvider>
+    </>
   );
 }
