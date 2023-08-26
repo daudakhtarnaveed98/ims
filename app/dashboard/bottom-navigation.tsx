@@ -21,6 +21,7 @@ export default function BottomNavigation() {
   );
   const router = useRouter();
   const pathname = usePathname();
+  const { role } = useAppSelector((state) => state.userReducer.user);
 
   useEffect(() => {
     switch (pathname) {
@@ -69,7 +70,9 @@ export default function BottomNavigation() {
         <MUIBottomNavigationAction label="Logs" icon={<FeedIcon />} />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
         <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
-        <MUIBottomNavigationAction label="Users" icon={<Person />} />
+        {role === "OWNER" && (
+          <MUIBottomNavigationAction label="Users" icon={<Person />} />
+        )}
         <MUIBottomNavigationAction label="Logout" icon={<Logout />} />
       </MUIBottomNavigation>
     </>

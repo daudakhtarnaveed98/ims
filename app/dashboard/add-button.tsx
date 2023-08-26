@@ -8,7 +8,7 @@ import MedicationIcon from "@mui/icons-material/Medication";
 import CategoryIcon from "@mui/icons-material/Category";
 import { setIsAddCategoryDialogOpen } from "@/app/dashboard/categories/categories-slice";
 import { setIsAddProductDialogOpen } from "@/app/dashboard/products/products-slice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Person } from "@mui/icons-material";
 import { setIsAddUserDialogOpen } from "@/app/dashboard/users/users-slice";
 
@@ -17,31 +17,37 @@ export default function AddButton() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { role } = useAppSelector((state) => state.userReducer.user);
 
-  const actions = [
-    {
-      icon: <Person />,
-      name: "User",
-      onClick: () => {
-        dispatch(setIsAddUserDialogOpen(true));
-      },
+  const addUserAction = {
+    icon: <Person />,
+    name: "User",
+    onClick: () => {
+      dispatch(setIsAddUserDialogOpen(true));
     },
+  };
 
-    {
-      icon: <CategoryIcon />,
-      name: "Category",
-      onClick: () => {
-        dispatch(setIsAddCategoryDialogOpen(true));
-      },
+  const addCategoryAction = {
+    icon: <CategoryIcon />,
+    name: "Category",
+    onClick: () => {
+      dispatch(setIsAddCategoryDialogOpen(true));
     },
-    {
-      icon: <MedicationIcon />,
-      name: "Product",
-      onClick: () => {
-        dispatch(setIsAddProductDialogOpen(true));
-      },
+  };
+
+  const addProductAction = {
+    icon: <MedicationIcon />,
+    name: "Product",
+    onClick: () => {
+      dispatch(setIsAddProductDialogOpen(true));
     },
-  ];
+  };
+
+  const actions = [addCategoryAction, addProductAction];
+
+  if (role === "OWNER") {
+    actions.splice(0, 0, addUserAction);
+  }
 
   return (
     <Box>
