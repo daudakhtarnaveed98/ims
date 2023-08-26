@@ -1,6 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import bottomNavigationReducer from "@/app/dashboard/bottom-navigation-slice";
 import categoriesReducer from "@/app/dashboard/categories/categories-slice";
 import productsReducer from "@/app/dashboard/products/products-slice";
@@ -24,7 +33,12 @@ export const store = configureStore({
     usersReducer,
     dashboardReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
   devTools: process.env.NODE_ENV !== "production",
 });
 
