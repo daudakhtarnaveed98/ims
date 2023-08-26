@@ -19,6 +19,8 @@ export default function AddButton() {
   const handleClose = () => setOpen(false);
   const { role } = useAppSelector((state) => state.userReducer.user);
 
+  const isOwner = () => role === "OWNER";
+
   const addUserAction = {
     icon: <Person />,
     name: "User",
@@ -45,7 +47,7 @@ export default function AddButton() {
 
   const actions = [addCategoryAction, addProductAction];
 
-  if (role === "OWNER") {
+  if (isOwner()) {
     actions.splice(0, 0, addUserAction);
   }
 

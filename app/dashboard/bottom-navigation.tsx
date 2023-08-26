@@ -23,6 +23,8 @@ export default function BottomNavigation() {
   const pathname = usePathname();
   const { role } = useAppSelector((state) => state.userReducer.user);
 
+  const isOwner = () => role === "OWNER";
+
   useEffect(() => {
     switch (pathname) {
       case "/dashboard/logs":
@@ -70,7 +72,7 @@ export default function BottomNavigation() {
         <MUIBottomNavigationAction label="Logs" icon={<FeedIcon />} />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
         <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
-        {role === "OWNER" && (
+        {isOwner() && (
           <MUIBottomNavigationAction label="Users" icon={<Person />} />
         )}
         <MUIBottomNavigationAction label="Logout" icon={<Logout />} />
