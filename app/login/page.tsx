@@ -180,13 +180,8 @@ export default function SignIn() {
 
     if (isUserLoggedIn() && pathname === "/login") {
       router.push("/dashboard/logs");
-
-      enqueueSnackbar({
-        message: "Redirecting to dashboard/logs",
-        variant: "info",
-      });
     }
-  }, [router, pathname, user, enqueueSnackbar]);
+  }, [router, pathname, user]);
 
   return (
     <Container component="main" maxWidth="xs">

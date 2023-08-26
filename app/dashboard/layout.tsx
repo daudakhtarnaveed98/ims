@@ -15,6 +15,7 @@ import AddUserDialog from "@/app/dashboard/users/add-user-dialog";
 import { usePathname, useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { useSnackbar } from "notistack";
+import LogoutConfirmationDialog from "@/app/dashboard/logout-confirmation-dialog";
 
 export default function DashboardLayout({
   children,
@@ -47,6 +48,7 @@ export default function DashboardLayout({
       <CategoryDeleteConfirmationDialog />
       <ProductDeleteConfirmationDialog />
       <UserDeleteConfirmationDialog />
+      <LogoutConfirmationDialog />
       <AddCategoryDialog />
       <EditProductDialog />
       <AddProductDialog />

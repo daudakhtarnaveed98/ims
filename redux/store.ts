@@ -6,6 +6,7 @@ import categoriesReducer from "@/app/dashboard/categories/categories-slice";
 import productsReducer from "@/app/dashboard/products/products-slice";
 import userReducer from "@/app/user-slice";
 import usersReducer from "@/app/dashboard/users/users-slice";
+import dashboardReducer from "@/app/dashboard/dashboard-slice";
 
 const persistConfig = {
   key: "root",
@@ -21,6 +22,7 @@ export const store = configureStore({
     productsReducer,
     userReducer: persistedUserReducer,
     usersReducer,
+    dashboardReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== "production",

@@ -11,7 +11,8 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setValue } from "@/app/dashboard/bottom-navigation-slice";
-import { Person } from "@mui/icons-material";
+import { Logout, Person } from "@mui/icons-material";
+import { setIsConfirmDialogOpen } from "@/app/dashboard/dashboard-slice";
 
 export default function BottomNavigation() {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export default function BottomNavigation() {
 
   useEffect(() => {
     switch (pathname) {
-      case "/dashboard/consumptions":
+      case "/dashboard/logs":
         dispatch(setValue(0));
         break;
       case "/dashboard/products":
@@ -31,6 +32,9 @@ export default function BottomNavigation() {
         break;
       case "/dashboard/categories":
         dispatch(setValue(2));
+        break;
+      case "/dashboard/users":
+        dispatch(setValue(3));
         break;
     }
   }, [dispatch, pathname]);
@@ -56,6 +60,9 @@ export default function BottomNavigation() {
             case 3:
               router.push("/dashboard/users");
               break;
+            case 4:
+              dispatch(setIsConfirmDialogOpen(true));
+              break;
           }
         }}
       >
@@ -63,6 +70,7 @@ export default function BottomNavigation() {
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
         <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
         <MUIBottomNavigationAction label="Users" icon={<Person />} />
+        <MUIBottomNavigationAction label="Logout" icon={<Logout />} />
       </MUIBottomNavigation>
     </>
   );
