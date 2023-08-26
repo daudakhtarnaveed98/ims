@@ -43,6 +43,10 @@ export default function ProductCard({
     .diff(DateTime.now(), "months")
     .toObject()["months"];
 
+  const isDisabled = () => {
+    return isConsumingProduct || isDeletingProduct || isEditingProduct;
+  };
+
   return (
     <Card sx={{ width: "100%" }}>
       {stock <= lowStockQuantity && stock > 0 && (
@@ -111,7 +115,7 @@ export default function ProductCard({
               dispatch(setIsEditProductDialogOpen(true));
             }
           }}
-          disabled={isEditingProduct}
+          disabled={isDisabled()}
         >
           <EditIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -143,7 +147,7 @@ export default function ProductCard({
               dispatch(setIsConsumeProductDialogOpen(true));
             }
           }}
-          disabled={isConsumingProduct}
+          disabled={isDisabled()}
         >
           <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -155,7 +159,7 @@ export default function ProductCard({
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
-          disabled={isDeletingProduct}
+          disabled={isDisabled()}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
