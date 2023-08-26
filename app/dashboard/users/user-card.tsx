@@ -31,7 +31,9 @@ export default function UserCard({ id, email, role, uid }: User) {
   const { role: userRole } = useAppSelector((state) => state.userReducer.user);
 
   const isDisabled = () => {
-    return userRole !== "OWNER";
+    return (
+      userRole !== "OWNER" || isDeletingUser || isSendingPasswordResetEmail
+    );
   };
 
   return (
