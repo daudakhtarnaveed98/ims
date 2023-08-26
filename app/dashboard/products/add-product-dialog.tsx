@@ -99,8 +99,6 @@ export default function AddProductDialog() {
     },
   });
 
-  const label = { inputProps: { "aria-label": "Is expiry mandatory" } };
-
   const handleClose = () => {
     formik.resetForm();
     dispatch(setIsAddProductDialogOpen(false));
