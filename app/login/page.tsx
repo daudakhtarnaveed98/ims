@@ -32,6 +32,7 @@ import firebase from "firebase/compat";
 import FirebaseError = firebase.FirebaseError;
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { getUserRole } from "@/app/login/utils";
 
 function Copyright(props: any) {
   return (
@@ -114,10 +115,13 @@ export default function SignIn() {
           return;
         }
 
+        const { role } = await getUserRole(values.email);
+
         const userInfoToSet = {
           uid: user.uid,
           email: user.email,
           emailVerified: user.emailVerified,
+          role: role,
         };
 
         dispatch(setUser(userInfoToSet));
