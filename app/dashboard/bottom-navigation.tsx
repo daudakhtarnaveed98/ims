@@ -11,6 +11,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setValue } from "@/app/dashboard/bottom-navigation-slice";
+import { Person } from "@mui/icons-material";
 
 export default function BottomNavigation() {
   const dispatch = useAppDispatch();
@@ -52,12 +53,16 @@ export default function BottomNavigation() {
             case 2:
               router.push("/dashboard/categories");
               break;
+            case 3:
+              router.push("/dashboard/users");
+              break;
           }
         }}
       >
         <MUIBottomNavigationAction label="Logs" icon={<FeedIcon />} />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
         <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
+        <MUIBottomNavigationAction label="Users" icon={<Person />} />
       </MUIBottomNavigation>
     </>
   );
