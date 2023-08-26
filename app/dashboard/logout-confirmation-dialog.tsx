@@ -13,6 +13,9 @@ import { setIsConfirmDialogOpen } from "@/app/dashboard/dashboard-slice";
 import { reset } from "@/app/user-slice";
 import { usePathname } from "next/navigation";
 import { setValue } from "@/app/dashboard/bottom-navigation-slice";
+import { signOut } from "@firebase/auth";
+import { getAuth } from "firebase/auth";
+import { firebaseApp } from "@/firebase";
 
 export default function LogoutConfirmationDialog() {
   const pathname = usePathname();
@@ -43,10 +46,14 @@ export default function LogoutConfirmationDialog() {
 
   const handleLogout = async () => {
     try {
+      const auth = getAuth(firebaseApp);
+
       enqueueSnackbar("Logging out!", { variant: "info" });
 
       dispatch(reset());
       dispatch(setIsConfirmDialogOpen(false));
+
+      await signOut(auth);
 
       enqueueSnackbar("Logged out successfully!", { variant: "success" });
     } catch (e) {
