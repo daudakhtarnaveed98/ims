@@ -43,7 +43,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="#">
-        Ghauri Medics
+        IMS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -198,7 +198,7 @@ export default function SignIn() {
         }}
       >
         <Typography component="h1" variant="h4">
-          Ghauri Medics
+          IMS
         </Typography>
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />

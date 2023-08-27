@@ -4,9 +4,9 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "Ghauri Medics",
-    "description": "An inventory management system for clinics",
-    "short_name": "Ghauri Medics",
+    "name": "IMS",
+    "description": "An inventory management system for small clinics",
+    "short_name": "IMS",
     "icons": [
         {
             "src": "/icon-192x192.png",
