@@ -22,10 +22,11 @@ export default function CategoryCard({ id, name }: Category) {
   const isDeletingCategory = useAppSelector(
     (state) => state.categoriesReducer.isDeletingCategory,
   );
+  const { role } = useAppSelector((state) => state.userReducer.user);
 
   const isDisabled = () => {
     for (const unDeletableCategory of UNDELETABLE_CATEGORIES) {
-      if (unDeletableCategory.id === id) {
+      if (unDeletableCategory.id === id || role !== "OWNER") {
         return true;
       }
     }

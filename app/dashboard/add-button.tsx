@@ -54,26 +54,28 @@ export default function AddButton() {
   return (
     <Box>
       <Backdrop open={open} />
-      <SpeedDial
-        ariaLabel="Add button"
-        sx={{
-          position: "fixed",
-          bottom: 72,
-          right: 16,
-        }}
-        icon={<SpeedDialIcon />}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            onClick={action.onClick}
-          />
-        ))}
-      </SpeedDial>
+      {isOwner() && (
+        <SpeedDial
+          ariaLabel="Add button"
+          sx={{
+            position: "fixed",
+            bottom: 72,
+            right: 16,
+          }}
+          icon={<SpeedDialIcon />}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              onClick={action.onClick}
+            />
+          ))}
+        </SpeedDial>
+      )}
     </Box>
   );
 }

@@ -73,7 +73,7 @@ export default function UserCard({ id, email, role, uid }: User) {
               }
             }
           }}
-          disabled={isDisabled() || isSendingPasswordResetEmail}
+          disabled={isDisabled()}
         >
           <LockReset sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -92,7 +92,7 @@ export default function UserCard({ id, email, role, uid }: User) {
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
-          disabled={isDisabled() || isDeletingUser}
+          disabled={isDisabled()}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>

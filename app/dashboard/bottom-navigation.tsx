@@ -71,9 +71,15 @@ export default function BottomNavigation() {
       >
         <MUIBottomNavigationAction label="Logs" icon={<FeedIcon />} />
         <MUIBottomNavigationAction label="Products" icon={<MedicationIcon />} />
-        <MUIBottomNavigationAction label="Categories" icon={<CategoryIcon />} />
+
         {isOwner() && (
-          <MUIBottomNavigationAction label="Users" icon={<Person />} />
+          <>
+            <MUIBottomNavigationAction
+              label="Categories"
+              icon={<CategoryIcon />}
+            />
+            <MUIBottomNavigationAction label="Users" icon={<Person />} />
+          </>
         )}
         <MUIBottomNavigationAction label="Logout" icon={<Logout />} />
       </MUIBottomNavigation>

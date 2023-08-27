@@ -40,12 +40,28 @@ export default function ProductCard({
   const isEditingProduct = useAppSelector(
     (state) => state.productsReducer.isEditingProduct,
   );
+  const { role } = useAppSelector((state) => state.userReducer.user);
   const expiresInMonths = DateTime.fromFormat(expiry, "MM/yyyy")
     .diff(DateTime.now(), "months")
     .toObject()["months"];
 
-  const isDisabled = () => {
+  const isEditDisabled = () => {
     return isConsumingProduct || isDeletingProduct || isEditingProduct;
+  };
+
+  const isConsumeDisabled = () => {
+    return (
+      stock === 0 || isConsumingProduct || isDeletingProduct || isEditingProduct
+    );
+  };
+
+  const isDeleteDisabled = () => {
+    return (
+      role !== "OWNER" ||
+      isConsumingProduct ||
+      isDeletingProduct ||
+      isEditingProduct
+    );
   };
 
   return (
@@ -116,7 +132,7 @@ export default function ProductCard({
               dispatch(setIsEditProductDialogOpen(true));
             }
           }}
-          disabled={isDisabled()}
+          disabled={isEditDisabled()}
         >
           <EditIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -148,7 +164,7 @@ export default function ProductCard({
               dispatch(setIsConsumeProductDialogOpen(true));
             }
           }}
-          disabled={isDisabled()}
+          disabled={isConsumeDisabled()}
         >
           <ShoppingCartIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
@@ -181,7 +197,7 @@ export default function ProductCard({
               dispatch(setIsConfirmDialogOpen(true));
             }
           }}
-          disabled={isDisabled()}
+          disabled={isDeleteDisabled()}
         >
           <DeleteIcon sx={{ height: 24, width: 24 }} />
         </IconButton>
