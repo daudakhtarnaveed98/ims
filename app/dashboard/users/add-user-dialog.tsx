@@ -123,7 +123,7 @@ export default function AddUserDialog() {
                 id="password"
                 name="password"
                 label="Password"
-                type="text"
+                type="password"
                 size="small"
                 value={formik.values.password}
                 onChange={formik.handleChange}
