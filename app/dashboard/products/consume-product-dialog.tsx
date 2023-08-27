@@ -83,7 +83,7 @@ export default function ConsumeProductDialog() {
         await addProductConsumeLog(
           email,
           toConsumeProduct.name,
-          toConsumeProduct.stock,
+          values.quantity,
         );
 
         enqueueSnackbar("Product consumed successfully!", {
