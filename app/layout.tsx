@@ -20,6 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title></title>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <meta name="theme-color" content="#042940" />
+      </head>
       <body className={inter.className} style={{ margin: 0 }}>
         <SnackbarProvider
           anchorOrigin={{
