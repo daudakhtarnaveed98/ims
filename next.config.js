@@ -36,12 +36,13 @@ const nextConfig = {
       },
     ];
   },
-  webpack: (config) => {
-    const entry = generateAppDirEntry(config.entry);
-    config.entry = () => entry;
-
-    return config;
-  },
+  // webpack: (config) => {
+  //   const entry = generateAppDirEntry(config.entry);
+  //   config.entry = () => entry;
+  //
+  //   return config;
+  // },
 };
 
-module.exports = withPWA(nextConfig);
+// module.exports = withPWA(nextConfig);
+module.exports = nextConfig;
