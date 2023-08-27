@@ -56,7 +56,7 @@ export default function DashboardLayout({
       <ConsumeProductDialog />
       <AppBar position="static" sx={{ mb: 2 }}>
         <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit" component="div">
+          <Typography color="inherit" component="div">
             Hi, {user.email}!
           </Typography>
         </Toolbar>
