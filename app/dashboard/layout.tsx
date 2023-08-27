@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Box, Paper } from "@mui/material";
+import { AppBar, Box, Paper, Typography } from "@mui/material";
+import Toolbar from "@mui/material/Toolbar";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
 import AddButton from "@/app/dashboard/add-button";
 import AddCategoryDialog from "@/app/dashboard/categories/add-category-dialog";
@@ -53,6 +54,13 @@ export default function DashboardLayout({
       <EditProductDialog />
       <AddProductDialog />
       <ConsumeProductDialog />
+      <AppBar position="static" sx={{ mb: 2 }}>
+        <Toolbar variant="dense">
+          <Typography variant="h6" color="inherit" component="div">
+            Hi, {user.email}!
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Box sx={{ width: "100%" }}>
         {children}
         <AddButton />

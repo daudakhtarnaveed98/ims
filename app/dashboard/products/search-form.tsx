@@ -20,7 +20,7 @@ export default function SearchForm() {
 
   return (
     <form id="productSearchForm" onSubmit={formik.handleSubmit}>
-      <Box sx={{ my: 2, display: "flex" }}>
+      <Box sx={{ m: 2, display: "flex" }}>
         <TextField
           sx={{ mr: 1 }}
           id="query"
